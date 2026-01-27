@@ -2,16 +2,28 @@
        RESET & BASE STYLES
        =========================================== */
 
-    /* CSS Custom Properties for consistent theming */
+    /* CSS Custom Properties for consistent theming - Crochet-inspired color palette */
     :root {
-      --primary-color: #e07850;
-      --primary-dark: #d06840;
-      --text-color: #2d2520;
-      --bg-color: #faf9f7;
-      --muted-color: #8b8580;
-      --border-color: #e8e4df;
-      --hover-bg: #f0ebe5;
+      --primary-color: #e07850; /* Warm orange */
+      --primary-dark: #d06840; /* Darker orange for active states */
+      --secondary-color: #8b8580; /* Soft gray for muted elements */
+      --accent-color: #f0ebe5; /* Light cream for hovers */
+      --text-color: #2d2520; /* Deep brown for text */
+      --bg-color: #faf9f7; /* Cream background */
+      --muted-color: #8b8580; /* Muted gray */
+      --border-color: #e8e4df; /* Light border */
+      --hover-bg: #f0ebe5; /* Hover background */
       --white: #fff;
+
+      /* Crochet-inspired tag colors */
+      --tag-amigurumi-bg: rgba(224, 100, 100, 0.15); --tag-amigurumi-text: #d05050; /* Soft pink */
+      --tag-clothing-bg: rgba(60, 170, 150, 0.15); --tag-clothing-text: #2a9a85; /* Teal */
+      --tag-decoration-bg: rgba(230, 180, 80, 0.2); --tag-decoration-text: #a07020; /* Mustard */
+      --tag-accessory-bg: rgba(160, 100, 200, 0.15); --tag-accessory-text: #8050b0; /* Lavender */
+      --tag-blanket-bg: rgba(80, 140, 200, 0.15); --tag-blanket-text: #4080b0; /* Sky blue */
+      --tag-baby-bg: rgba(230, 140, 180, 0.2); --tag-baby-text: #c06090; /* Blush pink */
+      --tag-winter-bg: rgba(100, 140, 170, 0.15); --tag-winter-text: #506880; /* Slate blue */
+      --tag-gift-bg: rgba(220, 130, 70, 0.15); --tag-gift-text: #c07040; /* Terracotta */
     }
 
     /* Global box-sizing and smooth scrolling */
@@ -284,11 +296,11 @@
     }
 
     /* Tag color variants */
-    .tag--amigurumi { background: rgba(224, 100, 100, 0.15); color: #d05050; }
-    .tag--clothing   { background: rgba(60, 170, 150, 0.15); color: #2a9a85; }
-    .tag--decoration { background: rgba(230, 180, 80, 0.2); color: #a07020; }
-    .tag--accessory  { background: rgba(160, 100, 200, 0.15); color: #8050b0; }
-    .tag--blanket    { background: rgba(80, 140, 200, 0.15); color: #4080b0; }
-    .tag--baby       { background: rgba(230, 140, 180, 0.2); color: #c06090; }
-    .tag--winter     { background: rgba(100, 140, 170, 0.15); color: #506880; }
-    .tag--gift       { background: rgba(220, 130, 70, 0.15); color: #c07040; }
+    .tag--amigurumi { background: var(--tag-amigurumi-bg); color: var(--tag-amigurumi-text); }
+    .tag--clothing   { background: var(--tag-clothing-bg); color: var(--tag-clothing-text); }
+    .tag--decoration { background: var(--tag-decoration-bg); color: var(--tag-decoration-text); }
+    .tag--accessory  { background: var(--tag-accessory-bg); color: var(--tag-accessory-text); }
+    .tag--blanket    { background: var(--tag-blanket-bg); color: var(--tag-blanket-text); }
+    .tag--baby       { background: var(--tag-baby-bg); color: var(--tag-baby-text); }
+    .tag--winter     { background: var(--tag-winter-bg); color: var(--tag-winter-text); }
+    .tag--gift       { background: var(--tag-gift-bg); color: var(--tag-gift-text); }
