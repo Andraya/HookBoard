@@ -26,6 +26,30 @@
       --tag-gift-bg: rgba(220, 130, 70, 0.15); --tag-gift-text: #c07040; /* Terracotta */
     }
 
+    /* Dark mode overrides */
+    .dark-mode {
+      --primary-color: #f4a261; /* Lighter orange for dark bg */
+      --primary-dark: #e76f51; /* Brighter for contrast */
+      --secondary-color: #a8a8a8; /* Lighter gray */
+      --accent-color: #2a2a2a; /* Dark accent */
+      --text-color: #f5f5f5; /* Light text */
+      --bg-color: #1a1a1a; /* Dark background */
+      --muted-color: #b0b0b0; /* Lighter muted */
+      --border-color: #333333; /* Dark border */
+      --hover-bg: #2a2a2a; /* Dark hover */
+      --white: #1a1a1a; /* Dark white */
+
+      /* Dark mode tag colors - adjusted for contrast */
+      --tag-amigurumi-bg: rgba(255, 150, 150, 0.2); --tag-amigurumi-text: #ff9999; /* Lighter pink */
+      --tag-clothing-bg: rgba(100, 200, 180, 0.2); --tag-clothing-text: #66ccaa; /* Lighter teal */
+      --tag-decoration-bg: rgba(255, 210, 100, 0.25); --tag-decoration-text: #ffcc66; /* Lighter mustard */
+      --tag-accessory-bg: rgba(200, 150, 255, 0.2); --tag-accessory-text: #cc99ff; /* Lighter lavender */
+      --tag-blanket-bg: rgba(120, 180, 255, 0.2); --tag-blanket-text: #80b3ff; /* Lighter blue */
+      --tag-baby-bg: rgba(255, 180, 210, 0.25); --tag-baby-text: #ffb3d1; /* Lighter blush */
+      --tag-winter-bg: rgba(140, 180, 200, 0.2); --tag-winter-text: #99cccc; /* Lighter slate */
+      --tag-gift-bg: rgba(255, 160, 100, 0.2); --tag-gift-text: #ffaa66; /* Lighter terracotta */
+    }
+
     /* Global box-sizing and smooth scrolling */
     html {
       box-sizing: border-box;
@@ -147,11 +171,30 @@
       box-shadow: 0 0 0 4px rgba(224, 120, 80, 0.1);
     }
 
-    /* ===== NAVIGATION ===== */
-    .nav {
+    /* ===== THEME TOGGLE ===== */
+    .theme-toggle {
+      background: none;
+      border: 2px solid var(--border-color);
+      border-radius: 50px;
+      padding: 0.5rem;
+      cursor: pointer;
+      font-size: 1.25rem;
+      color: var(--text-color);
+      transition: all 0.2s ease;
       display: flex;
       align-items: center;
-      gap: 0.25rem;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+    }
+    .theme-toggle:hover {
+      background: var(--hover-bg);
+      border-color: var(--primary-color);
+      transform: scale(1.1);
+    }
+    .theme-toggle:focus {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
     }
 
     .nav-link {
