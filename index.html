@@ -10,6 +10,9 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/images/logo.png">
  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+ 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Link to CSS -->
@@ -19,6 +22,48 @@
 </head>
 
 <body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <a href="#" class="sidebar-logo-link">
+        <img src="assets/images/logo.png" alt="HookBoard Logo" class="sidebar-logo-icon">
+      </a>
+      <a href="#" class="sidebar-logo-text-link">
+        <span class="sidebar-logo-text">
+          Hook<br>
+          <span>Board</span>
+        </span>
+      </a>
+    </div>
+    
+    <nav class="sidebar-nav">
+      <a href="#" class="sidebar-link" title="Home">
+        <i class="fas fa-home"></i>
+      </a>
+      <a href="#" class="sidebar-link" title="Favorites">
+        <i class="fas fa-heart"></i>
+      </a>
+      <a href="#" class="sidebar-link" title="Search">
+        <i class="fas fa-search"></i>
+      </a>
+      <a href="#" class="sidebar-link" title="Notifications">
+        <i class="fas fa-bell"></i>
+      </a>
+      <a href="#" class="sidebar-link" title="Messages">
+        <i class="fas fa-envelope"></i>
+      </a>
+    </nav>
+    
+    <div class="sidebar-footer">
+      <button class="sidebar-link theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <i class="fas fa-moon theme-icon"></i>
+      </button>
+      <a href="#" class="sidebar-link" title="Profile">
+        <i class="fas fa-user"></i>
+      </a>
+    </div>
+  </aside>
+
   <!-- Site Header -->
   <header class="header">
     <div class="header-container">
@@ -44,15 +89,10 @@
           <span>🏠</span> <span class="nav-link-text">Home</span>
         </a>
         <a href="#" class="nav-link">
-          <span>❤️</span> <span class="nav-link-text">Favorites</span>
-        </a>
-        <a href="#" class="nav-link">
           <span>👤</span> <span class="nav-link-text">Profile</span>
         </a>
       </nav>
 
-      <!-- Theme Toggle Button -->
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
     </div>
   </header>
 
