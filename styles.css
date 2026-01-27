@@ -122,7 +122,11 @@
       transform: scale(1.02);
     }
 
-    .logo-icon { font-size: 1.75rem; }
+    .logo-icon { 
+      width: 2rem; 
+      height: 2rem; 
+      object-fit: contain;
+    }
     .logo-text {
       font-size: 1.25rem;
       font-weight: 700;
