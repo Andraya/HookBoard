@@ -89,6 +89,9 @@
       background-color: var(--bg-color);
       color: var(--text-color);
       line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     /* Screen reader only utility class */
@@ -248,20 +251,33 @@
        CARD GRID
        =========================================== */
 
-    /* Masonry-style grid layout */
+    /* Pinterest-style grid layout with 5 equal columns */
     .masonry-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      grid-template-columns: repeat(5, 1fr);
       gap: 1.5rem;
       padding: 1.5rem 1rem;
       max-width: 1800px;
       margin: 0 auto 0 70px;
+      flex: 1;
     }
 
-    /* Responsive grid: smaller columns and spacing on mobile */
+    /* Responsive grid: adjust columns on smaller screens */
+    @media (max-width: 1200px) {
+      .masonry-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .masonry-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
     @media (max-width: 600px) {
       .masonry-grid {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
         gap: 1rem;
         padding: 1rem;
       }
@@ -382,7 +398,8 @@
       background: var(--bg-color);
       border-top: 1px solid var(--border-color);
       color: var(--text-color);
-      margin-left: 70px;
+      width: 100%;
+      margin-top: auto;
     }
 
     /* ===========================================
