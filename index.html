@@ -10,8 +10,11 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/images/logo.png">
  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+ 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Link to CSS -->
   <link rel="stylesheet" href="styles.css">
   <!-- Link to JS -->
@@ -19,14 +22,49 @@
 </head>
 
 <body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <a href="#" class="sidebar-logo-link">
+        <img src="assets/images/logo.png" alt="HookBoard Logo" class="sidebar-logo-icon">
+      </a>
+      <a href="#" class="sidebar-logo-text-link">
+        <span class="sidebar-logo-text">
+          Hook<br>
+          <span>Board</span>
+        </span>
+      </a>
+    </div>
+    
+    <nav class="sidebar-nav">
+      <a href="#" class="sidebar-link" title="Home">
+        <i class="fas fa-home"></i>
+      </a>
+      <a href="#" class="sidebar-link" title="Favorites">
+        <i class="fas fa-heart"></i>
+      </a>
+      <a href="#" class="sidebar-link" title="Notifications">
+        <i class="fas fa-bell"></i>
+      </a>
+      <a href="#" class="sidebar-link" title="Messages">
+        <i class="fas fa-envelope"></i>
+      </a>
+    </nav>
+    
+    <div class="sidebar-footer">
+      <button class="sidebar-link theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <i class="fas fa-moon theme-icon"></i>
+      </button>
+      <a href="#" class="sidebar-link" title="Profile">
+        <i class="fas fa-user"></i>
+      </a>
+    </div>
+  </aside>
+
   <!-- Site Header -->
   <header class="header">
-    <div class="header-container">
-      <a href="#" class="logo">
-        <img src="assets/images/logo.png" alt="HookBoard Logo" class="logo-icon">
-        <span class="logo-text">Hook<span>Board</span></span>
-      </a>
-      <!-- Search Bar -->
+    <!-- Top Row: Search Bar & Profile -->
+    <div class="header-top">
       <div class="search-container">
         <label for="search-input" class="sr-only">Search by title or tags</label>
         <span class="search-icon">🔍</span>
@@ -37,23 +75,24 @@
           placeholder="Search by title or tags"
         >
       </div>
-
-      <!-- Navigation Menu -->
-      <nav class="nav">
-        <a href="#" class="nav-link nav-link--active">
-          <span>🏠</span> <span class="nav-link-text">Home</span>
-        </a>
-        <a href="#" class="nav-link">
-          <span>❤️</span> <span class="nav-link-text">Favorites</span>
-        </a>
-        <a href="#" class="nav-link">
-          <span>👤</span> <span class="nav-link-text">Profile</span>
-        </a>
-      </nav>
-
-      <!-- Theme Toggle Button -->
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+      <a href="#" class="profile-link" title="Profile">
+        <div class="profile-avatar">
+          <i class="fas fa-user"></i>
+        </div>
+      </a>
     </div>
+
+    <!-- Bottom Row: Navigation Tags -->
+    <nav class="header-nav">
+      <a href="#" class="nav-tag nav-tag--amigurumi">amigurumi</a>
+      <a href="#" class="nav-tag nav-tag--clothing">clothing</a>
+      <a href="#" class="nav-tag nav-tag--decoration">decoration</a>
+      <a href="#" class="nav-tag nav-tag--accessory">accessories</a>
+      <a href="#" class="nav-tag nav-tag--blanket">blankets</a>
+      <a href="#" class="nav-tag nav-tag--baby">baby</a>
+      <a href="#" class="nav-tag nav-tag--winter">winter</a>
+      <a href="#" class="nav-tag nav-tag--gift">gifts</a>
+    </nav>
   </header>
 
 <!-- Project Cards Grid -->
@@ -244,6 +283,54 @@
       </div>
     </article>
     </a>
+
+    <a href="projeto13.html" class="card-link">
+    <article class="card">
+      <div class="card-image-wrapper">
+        <img src="https://picsum.photos/300/400?random=1" alt="Blue Whale Amigurumi" class="card-image" loading="lazy">
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">Blue Whale Amigurumi</h3>
+        <div class="tags">
+          <span class="tag tag--amigurumi">amigurumi</span>
+          <span class="tag tag--baby">baby</span>
+          <span class="tag tag--gift">gift</span>
+        </div>
+      </div>
+    </article>
+    </a>
+
+    <a href="projeto14.html" class="card-link">
+    <article class="card">
+      <div class="card-image-wrapper">
+        <img src="https://picsum.photos/300/400?random=2" alt="Summer Hat" class="card-image" loading="lazy">
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">Summer Hat</h3>
+        <div class="tags">
+          <span class="tag tag--accessory">accessory</span>
+          <span class="tag tag--clothing">clothing</span>
+        </div>
+      </div>
+    </article>
+    </a>
+
+    <a href="projeto15.html" class="card-link">
+    <article class="card">
+      <div class="card-image-wrapper">
+        <img src="https://picsum.photos/300/400?random=3" alt="Cactus Decor" class="card-image" loading="lazy">
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">Cactus Decor</h3>
+        <div class="tags">
+          <span class="tag tag--decoration">decoration</span>
+          <span class="tag tag--amigurumi">amigurumi</span>
+        </div>
+      </div>
+    </article>
+    </a>
+
+</main>
 
 <!-- Footer -->
 <footer class="footer">
