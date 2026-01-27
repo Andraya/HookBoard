@@ -347,3 +347,15 @@
     .tag--baby       { background: var(--tag-baby-bg); color: var(--tag-baby-text); }
     .tag--winter     { background: var(--tag-winter-bg); color: var(--tag-winter-text); }
     .tag--gift       { background: var(--tag-gift-bg); color: var(--tag-gift-text); }
+
+    /* ===========================================
+       FOOTER
+       =========================================== */
+
+    .footer {
+      text-align: center;
+      padding: 1rem;
+      background: var(--bg-color);
+      border-top: 1px solid var(--border-color);
+      color: var(--text-color);
+    }
