@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
  
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Link to CSS -->
   <link rel="stylesheet" href="styles.css">
   <!-- Link to JS -->
@@ -43,9 +43,6 @@
       <a href="#" class="sidebar-link" title="Favorites">
         <i class="fas fa-heart"></i>
       </a>
-      <a href="#" class="sidebar-link" title="Search">
-        <i class="fas fa-search"></i>
-      </a>
       <a href="#" class="sidebar-link" title="Notifications">
         <i class="fas fa-bell"></i>
       </a>
@@ -66,12 +63,8 @@
 
   <!-- Site Header -->
   <header class="header">
-    <div class="header-container">
-      <a href="#" class="logo">
-        <img src="assets/images/logo.png" alt="HookBoard Logo" class="logo-icon">
-        <span class="logo-text">Hook<span>Board</span></span>
-      </a>
-      <!-- Search Bar -->
+    <!-- Top Row: Search Bar & Profile -->
+    <div class="header-top">
       <div class="search-container">
         <label for="search-input" class="sr-only">Search by title or tags</label>
         <span class="search-icon">🔍</span>
@@ -82,18 +75,24 @@
           placeholder="Search by title or tags"
         >
       </div>
-
-      <!-- Navigation Menu -->
-      <nav class="nav">
-        <a href="#" class="nav-link nav-link--active">
-          <span>🏠</span> <span class="nav-link-text">Home</span>
-        </a>
-        <a href="#" class="nav-link">
-          <span>👤</span> <span class="nav-link-text">Profile</span>
-        </a>
-      </nav>
-
+      <a href="#" class="profile-link" title="Profile">
+        <div class="profile-avatar">
+          <i class="fas fa-user"></i>
+        </div>
+      </a>
     </div>
+
+    <!-- Bottom Row: Navigation Tags -->
+    <nav class="header-nav">
+      <a href="#" class="nav-tag nav-tag--amigurumi">amigurumi</a>
+      <a href="#" class="nav-tag nav-tag--clothing">clothing</a>
+      <a href="#" class="nav-tag nav-tag--decoration">decoration</a>
+      <a href="#" class="nav-tag nav-tag--accessory">accessories</a>
+      <a href="#" class="nav-tag nav-tag--blanket">blankets</a>
+      <a href="#" class="nav-tag nav-tag--baby">baby</a>
+      <a href="#" class="nav-tag nav-tag--winter">winter</a>
+      <a href="#" class="nav-tag nav-tag--gift">gifts</a>
+    </nav>
   </header>
 
 <!-- Project Cards Grid -->
