@@ -98,26 +98,103 @@
   <!-- Main Content Layout -->
   <main class="main-layout">
     <aside class="left-sidebar">
-      <!-- Widgets here -->
-      <div class="widget">
-        <h3>Widgets</h3>
-        <p>Widgets content</p>
+      <!-- Focus Mode Button -->
+      <button class="focus-mode-btn">
+        <i class="fas fa-eye"></i>
+        Focus Mode
+      </button>
+
+      <!-- Timer Card -->
+      <div class="widget-card">
+        <div class="widget-header">
+          <h3>Timer</h3>
+          <i class="fas fa-eye toggle-icon"></i>
+        </div>
+        <div class="widget-body">
+          <div class="timer-display">00:00:00</div>
+          <div class="timer-controls">
+            <button class="btn btn-start" aria-label="Start timer"><i class="fas fa-play"></i></button>
+            <button class="btn btn-reset" aria-label="Reset timer"><i class="fas fa-undo"></i></button>
+            <button class="btn btn-pause" aria-label="Pause timer"><i class="fas fa-pause"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Counter Card -->
+      <div class="widget-card">
+        <div class="widget-header">
+          <h3>Counter</h3>
+          <i class="fas fa-eye toggle-icon"></i>
+        </div>
+        <div class="widget-body">
+          <div class="counter-display">0</div>
+          <div class="counter-controls">
+            <button class="btn btn-plus" aria-label="Increase counter"><i class="fas fa-plus"></i></button>
+            <button class="btn btn-reset" aria-label="Reset counter"><i class="fas fa-undo"></i></button>
+            <button class="btn btn-minus" aria-label="Decrease counter"><i class="fas fa-minus"></i></button>
+          </div>
+        </div>
       </div>
     </aside>
     
     <section class="center-content">
-      <!-- Main content (PDF) here -->
+      <!-- PDF Viewer -->
       <div class="pdf-container">
-        <h2>Main Content</h2>
-        <p>Space for the PDF or main content.</p>
+        <embed src="pdf/test.pdf" type="application/pdf" class="pdf-viewer">
       </div>
     </section>
     
     <aside class="right-sidebar">
-      <!-- Info here -->
-      <div class="info-panel">
-        <h3>Information</h3>
-        <p>Details and additional information.</p>
+      <!-- Project Details -->
+      <div class="project-details-panel">
+        <h1 class="project-title">Cute Panda Amigurumi</h1>
+        <hr class="title-divider">
+        
+        <div class="project-tags">
+          <span class="tag">amigurumi</span>
+          <span class="tag">gift</span>
+          <span class="tag">baby</span>
+        </div>
+        
+        <section class="materials-section">
+          <h2 class="section-title">Materials</h2>
+          <div class="materials-list">
+            <div class="material-item">Yarn: Worsted weight in desired colors</div>
+            <hr class="item-divider">
+            <div class="material-item">Hook: Size H/5mm</div>
+            <hr class="item-divider">
+            <div class="material-item">Stuffing</div>
+            <hr class="item-divider">
+            <div class="material-item">Safety eyes</div>
+          </div>
+        </section>
+        
+        <section class="costs-section">
+          <h2 class="section-title">Costs</h2>
+          <div class="costs-list">
+            <div class="cost-item">
+              <span class="cost-name">Materials</span>
+              <span class="cost-value">€12.50</span>
+            </div>
+            <div class="cost-item">
+              <span class="cost-name">Labor</span>
+              <span class="cost-value">€25.00</span>
+            </div>
+            <hr class="total-divider">
+            <div class="cost-item total">
+              <span class="cost-name">Total Cost</span>
+              <span class="cost-value">€37.50</span>
+            </div>
+          </div>
+        </section>
+        
+        <section class="selling-price-section">
+          <div class="selling-price">
+            <span class="currency">€</span>
+            <span class="price">75.00</span>
+          </div>
+          <p class="profit-text">Profit: €37.50 (50%)</p>
+        </section>
       </div>
     </aside>
   </main>
