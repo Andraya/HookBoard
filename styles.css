@@ -2,7 +2,7 @@
        RESET & BASE STYLES
        =========================================== */
 
-    /* CSS Custom Properties for consistent theming - Crochet-inspired color palette */
+    /* CSS Custom Properties for consistent theming */
     :root {
       --primary-color: #e07850; /* Warm orange */
       --primary-dark: #d06840; /* Darker orange for active states */
@@ -259,14 +259,14 @@
        =========================================== */
 
     /* Pinterest-style grid layout with 5 equal columns */
-    .masonry-grid {
+    .masonry-grid { /* Renamed from .card-grid to .masonry-grid */
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 1.5rem;
       padding: 1.5rem 1rem;
       width: 100%;
-      max-width: calc(100vw - 70px);
-      margin: 0 auto 0 70px;
+      max-width: calc(100vw - 80px); /* Account for sidebar and padding */
+      margin: 0 10px 0 70px;
       flex: 1;
       box-sizing: border-box;
     }
@@ -275,14 +275,14 @@
     @media (max-width: 1200px) {
       .masonry-grid {
         grid-template-columns: repeat(4, 1fr);
-        max-width: calc(100vw - 70px);
+        max-width: calc(100vw - 80px);
       }
     }
 
     @media (max-width: 900px) {
       .masonry-grid {
         grid-template-columns: repeat(3, 1fr);
-        max-width: calc(100vw - 70px);
+        max-width: calc(100vw - 80px);
       }
     }
 
@@ -291,7 +291,7 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 1rem;
         padding: 1rem;
-        max-width: calc(100vw - 70px);
+        max-width: calc(100vw - 80px);
       }
     }
 
