@@ -556,6 +556,7 @@
   grid-template-columns: 200px 1fr 300px; /* Narrow left, wide center, medium right */
   gap: 20px;
   padding: 20px;
+  margin-left: 70px; /* Account for fixed sidebar */
   min-height: calc(100vh - 200px); /* Adjust based on header/footer */
   box-sizing: border-box;
 }
