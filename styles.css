@@ -1049,7 +1049,7 @@
   top: 50%;
   transform: translateY(-50%);
   color: white;
-  font-style: italic;
+  font-style: normal;
   opacity: 0;
   transition: opacity 0.3s ease;
   font-size: 12px;
