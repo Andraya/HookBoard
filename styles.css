@@ -38,42 +38,6 @@
       --tag-gift-bg: rgba(255, 160, 122, 0.18); --tag-gift-text: #d48578; /* Light salmon */
     }
 
-    /* Dark mode overrides */
-    .dark-mode {
-      --primary-color: #f4a261; /* Lighter orange for dark bg */
-      --primary-dark: #e76f51; /* Brighter for contrast */
-      --secondary-color: #a8a8a8; /* Lighter gray */
-      --accent-color: #2a2a2a; /* Dark accent */
-      --text-color: #f5f5f5; /* Light text */
-      --bg-color: #1a1a1a; /* Dark background */
-      --muted-color: #b0b0b0; /* Lighter muted */
-      --border-color: #333333; /* Dark border */
-      --hover-bg: #2a2a2a; /* Dark hover */
-      --white: #1a1a1a; /* Dark white */
-      --header-bg: rgba(26, 26, 26, 0.95); /* Dark header background */
-      --header-border-color: #333333; /* Dark header border */
-      --search-bg: #2a2a2a; /* Dark search background */
-      --search-hover-bg: #333333; /* Dark search hover background */
-      --search-focus-bg: #1a1a1a; /* Dark search focus background */
-      --search-placeholder-color: #b0b0b0; /* Dark search placeholder color */
-      --search-icon-color: #a8a8a8; /* Dark search icon color */
-      --profile-avatar-bg: #2a2a2a; /* Dark profile avatar background */
-      --profile-avatar-hover-bg: #333333; /* Dark profile avatar hover background */
-      --profile-avatar-color: #a8a8a8; /* Dark profile avatar icon color */
-      --card-shadow: none; /* No shadows in dark mode */
-      --card-shadow-hover: none; /* No hover shadows in dark mode */
-
-      /* Dark mode pastel tag colors - brighter for better contrast */
-      --tag-amigurumi-bg: rgba(255, 182, 193, 0.22); --tag-amigurumi-text: #ffb8c1; /* Brighter blush pink */
-      --tag-clothing-bg: rgba(176, 224, 230, 0.22); --tag-clothing-text: #c8e8f0; /* Brighter powder blue */
-      --tag-decoration-bg: rgba(255, 218, 185, 0.22); --tag-decoration-text: #ffdab9; /* Brighter peach */
-      --tag-accessory-bg: rgba(221, 160, 221, 0.22); --tag-accessory-text: #e8c0e8; /* Brighter lilac */
-      --tag-blanket-bg: rgba(173, 216, 230, 0.22); --tag-blanket-text: #c8e8f0; /* Brighter light blue */
-      --tag-baby-bg: rgba(255, 192, 203, 0.22); --tag-baby-text: #ffc8d0; /* Brighter baby pink */
-      --tag-winter-bg: rgba(176, 196, 222, 0.22); --tag-winter-text: #c8d8e8; /* Brighter periwinkle */
-      --tag-gift-bg: rgba(255, 160, 122, 0.22); --tag-gift-text: #ffb8a0; /* Brighter light salmon */
-    }
-
     /* Global box-sizing and smooth scrolling */
     html {
       box-sizing: border-box;
@@ -516,36 +480,6 @@
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
-    }
-
-    /* Theme toggle in sidebar */
-    .sidebar .theme-toggle {
-      margin-left: 0;
-      margin-right: 0;
-      border: none;
-      background: none;
-      padding: 0;
-      width: 40px;
-      height: 40px;
-      font-size: 1.2rem;
-      transform: none;
-      outline: none;
-    }
-
-    .sidebar .theme-toggle .theme-icon {
-      font-size: 1.2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 100%;
-    }
-
-    .sidebar .theme-toggle:hover {
-      background-color: rgba(200, 200, 200, 0.2);
-      border: none;
-      transform: none;
-      outline: none;
     }
 
 /* ===========================================

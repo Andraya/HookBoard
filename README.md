@@ -26,7 +26,7 @@ This project will be used to practice languages and concepts that I've learned o
 - [ ] User authentication
 - [ ] Direct upload of images and PDFs
 - [ ] Pin creation/editing via form
-- [x] Dark/light mode toggle
+- [ ] Dark/light mode toggle
 - [ ] Infinite scrolling / pagination
 
 
@@ -35,7 +35,7 @@ This project will be used to practice languages and concepts that I've learned o
 **Current Implementation (Phase 1 - Static)**
 - HTML5
 - CSS3 (with CSS Grid, Flexbox, custom properties for theming)
-- Vanilla JavaScript (DOM manipulation, localStorage for theme)
+- Vanilla JavaScript (DOM manipulation)
 
 **Future Migration**
 - React (Vite)
