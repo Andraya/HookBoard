@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "title": "Squirtle",
+    "image": "assets\\images\\pin_1.png",
+    "tags": [
+      "fluffy",
+      "pokemon"
+    ],
+    "pdf": "pdf/test.pdf"
+  },
+  {
+    "id": 2,
+    "title": "Strawberry Cow",
+    "image": "assets\\images\\pin_2.jpeg",
+    "tags": [
+      "fluffy",
+      "cow",
+      "strawberry"
+    ],
+    "pdf": "pdf/ilide.info-strawbery-cow-f-pr_752f31671e716eb58c1512879ab5f6eb.pdf"
+  }
+]
