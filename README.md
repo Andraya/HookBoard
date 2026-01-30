@@ -24,18 +24,20 @@ This project will be used to practice languages and concepts that I've learned o
 
 **Future Roadmap:**
 - [ ] User authentication
-- [ ] Direct upload of images and PDFs
-- [ ] Pin creation/editing via form
+- [x] Direct upload of images and PDFs (local storage implemented)
+- [x] Pin creation/editing via form
+- [x] Pin deletion
 - [ ] Dark/light mode toggle
 - [ ] Infinite scrolling / pagination
 
 
 ## Technologies I Plan to Use / Already Using
 
-**Current Implementation (Phase 1 - Static)**
+**Current Implementation**
 - HTML5
 - CSS3 (with CSS Grid, Flexbox, custom properties for theming)
 - Vanilla JavaScript (DOM manipulation)
+- Python 
 
 **Future Migration**
 - React (Vite)
