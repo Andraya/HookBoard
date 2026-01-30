@@ -1,0 +1,33 @@
+[
+  {
+    "id": 1,
+    "title": "Squirtle",
+    "image": "assets/images/pin_1.png",
+    "tags": [
+      "fluffy",
+      "pokemon"
+    ],
+    "pdf": "assets/pdf/test.pdf",
+    "usedMaterials": [],
+    "difficulty": "",
+    "creationDate": "2026-01-29",
+    "time": "",
+    "productionCost": ""
+  },
+  {
+    "id": 2,
+    "title": "Strawberry Cow",
+    "image": "assets/images/pin_2.jpeg",
+    "tags": [
+      "fluffy",
+      "cow",
+      "strawberry"
+    ],
+    "pdf": "assets/pdf/ilide.info-strawbery-cow-f-pr_752f31671e716eb58c1512879ab5f6eb.pdf",
+    "usedMaterials": [],
+    "difficulty": "",
+    "creationDate": "2026-01-29",
+    "time": "",
+    "productionCost": ""
+  }
+]

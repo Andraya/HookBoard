@@ -37,7 +37,7 @@ function resetTimer() {
 // Load pins dynamically
 async function loadPins() {
   try {
-    const response = await fetch('./data/pins.json');
+    const response = await fetch('/data/pins.json');
     if (!response.ok) throw new Error('Failed to load pins.json');
     const pins = await response.json();
     const main = document.querySelector('.masonry-grid');
