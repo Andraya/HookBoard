@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HookBoard</title>
+  <meta name="description" content="Personal portfolio of crochet and amigurumi projects inspired by Pinterest">
+  <meta name="author" content="HookBoard">
+ 
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
+ 
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+ 
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Link to CSS -->
+  <link rel="stylesheet" href="styles.css">
+  <!-- Link to JS -->
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <a href="#" class="sidebar-logo-link">
+        <img src="assets/images/logo.png" alt="HookBoard Logo" class="sidebar-logo-icon">
+      </a>
+      <a href="#" class="sidebar-logo-text-link">
+        <span class="sidebar-logo-text">
+          Hook<br>
+          <span>Board</span>
+        </span>
+      </a>
+    </div>
+    
+    <nav class="sidebar-nav">
+      <a href="#" class="sidebar-link" title="Home">
+        <i class="fas fa-home"></i>
+      </a>
+      <a href="#" class="sidebar-link" title="Favorites">
+        <i class="fas fa-heart"></i>
+      </a>
+      <a href="#" class="sidebar-link" title="Notifications">
+        <i class="fas fa-bell"></i>
+      </a>
+      <a href="#" class="sidebar-link" title="Messages">
+        <i class="fas fa-envelope"></i>
+      </a>
+    </nav>
+    
+    <div class="sidebar-footer">
+      <a href="#" class="sidebar-link" title="Profile">
+        <i class="fas fa-user"></i>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Site Header -->
+  <header class="header">
+    <!-- Top Row: Search Bar & Profile -->
+    <div class="header-top">
+      <div class="search-container">
+        <label for="search-input" class="sr-only">Search by title or tags</label>
+        <span class="search-icon">🔍</span>
+        <input
+          id="search-input"
+          type="text"
+          class="search-input"
+          placeholder="Search by title or tags"
+        >
+      </div>
+      <a href="#" class="profile-link" title="Profile">
+        <div class="profile-avatar">
+          <i class="fas fa-user"></i>
+        </div>
+      </a>
+    </div>
+
+    <!-- Bottom Row: Navigation Tags -->
+    <nav class="header-nav">
+      <a href="#" class="nav-tag nav-tag--amigurumi">amigurumi</a>
+      <a href="#" class="nav-tag nav-tag--clothing">clothing</a>
+      <a href="#" class="nav-tag nav-tag--decoration">decoration</a>
+      <a href="#" class="nav-tag nav-tag--accessory">accessories</a>
+      <a href="#" class="nav-tag nav-tag--blanket">blankets</a>
+      <a href="#" class="nav-tag nav-tag--baby">baby</a>
+      <a href="#" class="nav-tag nav-tag--winter">winter</a>
+      <a href="#" class="nav-tag nav-tag--gift">gifts</a>
+    </nav>
+  </header>
+
+<!-- Project Cards Grid -->
+<main class="masonry-grid">
+
+    <a href="details.html" class="card-link">
+    <article class="card">
+      <div class="card-image-wrapper">
+        <img src="https://images.unsplash.com/photo-1535930749574-1399327ce78f?w=800&fit=crop" alt="Cute Panda Amigurumi" class="card-image" loading="lazy">
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">Cute Panda Amigurumi</h3>
+        <div class="tags">
+          <span class="tag tag--amigurumi">amigurumi</span>
+          <span class="tag tag--gift">gift</span>
+          <span class="tag tag--baby">baby</span>
+        </div>
+      </div>
+    </article>
+    </a>
+
+    <a href="projeto2.html" class="card-link">
+    <article class="card">
+      <div class="card-image-wrapper">
+        <img src="https://images.unsplash.com/photo-1544967082-d9d25d867d66?w=800&fit=crop" alt="Braided Infinity Scarf" class="card-image" loading="lazy">
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">Braided Infinity Scarf</h3>
+        <div class="tags">
+          <span class="tag tag--clothing">clothing</span>
+          <span class="tag tag--winter">winter</span>
+        </div>
+      </div>
+    </article>
+    </a>
+
+    <a href="projeto3.html" class="card-link">
+    <article class="card">
+      <div class="card-image-wrapper">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&fit=crop" alt="Colorful Sofa Blanket" class="card-image" loading="lazy">
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">Colorful Sofa Blanket</h3>
+        <div class="tags">
+          <span class="tag tag--blanket">blanket</span>
+          <span class="tag tag--decoration">decoration</span>
+          <span class="tag tag--gift">gift</span>
+        </div>
+      </div>
+    </article>
+    </a>
+
+    <a href="projeto4.html" class="card-link">
+    <article class="card">
+      <div class="card-image-wrapper">
+        <img src="https://images.unsplash.com/photo-1576871337622-98d48d1cf531?w=800&fit=crop" alt="Pom-Pom Hat" class="card-image" loading="lazy">
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">Pom-Pom Hat</h3>
+        <div class="tags">
+          <span class="tag tag--accessory">accessory</span>
+          <span class="tag tag--winter">winter</span>
+          <span class="tag tag--clothing">clothing</span>
+        </div>
+      </div>
+    </article>
+    </a>
+
+    <a href="projeto5.html" class="card-link">
+    <article class="card">
+      <div class="card-image-wrapper">
+        <img src="https://images.unsplash.com/photo-1560343776-97e7d202ff0e?w=800&fit=crop" alt="Pink Rabbit Amigurumi" class="card-image" loading="lazy">
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">Pink Rabbit Amigurumi</h3>
+        <div class="tags">
+          <span class="tag tag--amigurumi">amigurumi</span>
+          <span class="tag tag--baby">baby</span>
+        </div>
+      </div>
+    </article>
+    </a>
+
+    <a href="projeto6.html" class="card-link">
+    <article class="card">
+      <div class="card-image-wrapper">
+        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&fit=crop" alt="Mandala Decorative Pillow" class="card-image" loading="lazy">
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">Mandala Decorative Pillow</h3>
+        <div class="tags">
+          <span class="tag tag--decoration">decoration</span>
+          <span class="tag tag--gift">gift</span>
+        </div>
+      </div>
+    </article>
+    </a>
+
+    <a href="projeto7.html" class="card-link">
+    <article class="card">
+      <div class="card-image-wrapper">
+        <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=800&fit=crop" alt="Baby Booties" class="card-image" loading="lazy">
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">Baby Booties</h3>
+        <div class="tags">
+          <span class="tag tag--baby">baby</span>
+          <span class="tag tag--clothing">clothing</span>
+          <span class="tag tag--gift">gift</span>
+        </div>
+      </div>
+    </article>
+    </a>
+
+    <a href="projeto8.html" class="card-link">
+    <article class="card">
+      <div class="card-image-wrapper">
+        <img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=800&fit=crop" alt="Boho Beach Bag" class="card-image" loading="lazy">
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">Boho Beach Bag</h3>
+        <div class="tags">
+          <span class="tag tag--accessory">accessory</span>
+          <span class="tag tag--gift">gift</span>
+        </div>
+      </div>
+    </article>
+    </a>
+
+    <a href="projeto9.html" class="card-link">
+    <article class="card">
+      <div class="card-image-wrapper">
+        <img src="https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=800&fit=crop" alt="Amigurumi Bear with Bow" class="card-image" loading="lazy">
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">Amigurumi Bear with Bow</h3>
+        <div class="tags">
+          <span class="tag tag--amigurumi">amigurumi</span>
+          <span class="tag tag--baby">baby</span>
+          <span class="tag tag--gift">gift</span>
+        </div>
+      </div>
+    </article>
+    </a>
+
+    <a href="projeto10.html" class="card-link">
+    <article class="card">
+      <div class="card-image-wrapper">
+        <img src="https://images.unsplash.com/photo-1586105251261-72a756497a11?w=800&fit=crop" alt="Granny Square Blanket" class="card-image" loading="lazy">
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">Granny Square Blanket</h3>
+        <div class="tags">
+          <span class="tag tag--blanket">blanket</span>
+          <span class="tag tag--decoration">decoration</span>
+        </div>
+      </div>
+    </article>
+    </a>
+
+    <a href="projeto11.html" class="card-link">
+    <article class="card">
+      <div class="card-image-wrapper">
+        <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800&fit=crop" alt="Fingerless Gloves" class="card-image" loading="lazy">
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">Fingerless Gloves</h3>
+        <div class="tags">
+          <span class="tag tag--accessory">accessory</span>
+          <span class="tag tag--winter">winter</span>
+          <span class="tag tag--clothing">clothing</span>
+        </div>
+      </div>
+    </article>
+    </a>
+
+    <a href="projeto12.html" class="card-link">
+    <article class="card">
+      <div class="card-image-wrapper">
+        <img src="https://images.unsplash.com/photo-1615486511484-92e172cc4fe0?w=800&fit=crop" alt="Organizer Basket" class="card-image" loading="lazy">
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">Organizer Basket</h3>
+        <div class="tags">
+          <span class="tag tag--decoration">decoration</span>
+          <span class="tag tag--gift">gift</span>
+        </div>
+      </div>
+    </article>
+    </a>
+
+    <a href="projeto13.html" class="card-link">
+    <article class="card">
+      <div class="card-image-wrapper">
+        <img src="https://picsum.photos/300/400?random=1" alt="Blue Whale Amigurumi" class="card-image" loading="lazy">
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">Blue Whale Amigurumi</h3>
+        <div class="tags">
+          <span class="tag tag--amigurumi">amigurumi</span>
+          <span class="tag tag--baby">baby</span>
+          <span class="tag tag--gift">gift</span>
+        </div>
+      </div>
+    </article>
+    </a>
+
+    <a href="projeto14.html" class="card-link">
+    <article class="card">
+      <div class="card-image-wrapper">
+        <img src="https://picsum.photos/300/400?random=2" alt="Summer Hat" class="card-image" loading="lazy">
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">Summer Hat</h3>
+        <div class="tags">
+          <span class="tag tag--accessory">accessory</span>
+          <span class="tag tag--clothing">clothing</span>
+        </div>
+      </div>
+    </article>
+    </a>
+
+    <a href="projeto15.html" class="card-link">
+    <article class="card">
+      <div class="card-image-wrapper">
+        <img src="https://picsum.photos/300/400?random=3" alt="Cactus Decor" class="card-image" loading="lazy">
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">Cactus Decor</h3>
+        <div class="tags">
+          <span class="tag tag--decoration">decoration</span>
+          <span class="tag tag--amigurumi">amigurumi</span>
+        </div>
+      </div>
+    </article>
+    </a>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <p>&copy; 2026 HookBoard. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
