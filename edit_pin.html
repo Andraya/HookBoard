@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Pin</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Editar Pin</h1>
+    <form action="" method="post" enctype="multipart/form-data" id="editForm">
+        <input type="hidden" id="pinId" name="pinId">
+        <label for="title">Título:</label>
+        <input type="text" id="title" name="title" required><br><br>
+
+        <label for="tags">Tags (separadas por vírgula):</label>
+        <input type="text" id="tags" name="tags"><br><br>
+
+        <label for="difficulty">Dificuldade:</label>
+        <input type="text" id="difficulty" name="difficulty"><br><br>
+
+        <label for="time">Tempo:</label>
+        <input type="text" id="time" name="time"><br><br>
+
+        <label for="productionCost">Custo de Produção:</label>
+        <input type="text" id="productionCost" name="productionCost"><br><br>
+
+        <label for="usedMaterials">Materiais Usados (separados por vírgula):</label>
+        <input type="text" id="usedMaterials" name="usedMaterials"><br><br>
+
+        <button type="submit">Atualizar Pin</button>
+        <a href="/">Cancelar</a>
+    </form>
+
+    <script src="edit_pin.js"></script>
+</body>
+</html>
