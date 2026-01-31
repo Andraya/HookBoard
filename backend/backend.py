@@ -22,6 +22,11 @@ def index():
 def data_files(filename):
     return send_from_directory(os.path.join(os.path.dirname(__file__), '..', 'data'), filename)
 
+# when the /add_pin URL is accessed with a GET request (normal page load), serves the add_pin.html file
+@app.route('/add_pin')
+def add_pin_page():
+    return send_from_directory(os.path.join(os.path.dirname(__file__), '..'), 'add_pin.html')
+
 # when the /add_pin URL is accessed with a POST request (gets data and do something with it; != GET), handles the form submission to add a new pin
 @app.route('/add_pin', methods=['POST'])
 # function to handle adding a new pin (form submission, file upload, updating JSON, running script to extract images and generate thumbnails)
