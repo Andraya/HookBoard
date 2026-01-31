@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "title": "Squirtle",
+    "image": "assets/images/pin_1.png",
+    "tags": [
+      "fluffy",
+      "pokemon"
+    ],
+    "pdf": "assets/pdf/test.pdf",
+    "usedMaterials": [],
+    "difficulty": "",
+    "creationDate": "2026-01-29",
+    "time": "",
+    "productionCost": ""
+  },
+  {
+    "id": 2,
+    "title": "Strawberry Cow",
+    "image": "assets/images/pin_2.jpeg",
+    "tags": [
+      "fluffy",
+      "cow",
+      "strawberry"
+    ],
+    "pdf": "assets/pdf/ilide.info-strawbery-cow-f-pr_752f31671e716eb58c1512879ab5f6eb.pdf",
+    "usedMaterials": [],
+    "difficulty": "",
+    "creationDate": "2026-01-29",
+    "time": "",
+    "productionCost": ""
+  },
+  {
+    "id": 3,
+    "title": "Capuchinho vermelho",
+    "image": "assets/images/pin_3.jpeg",
+    "tags": [
+      "fluffy",
+      "disney",
+      "doll"
+    ],
+    "pdf": "assets/pdf/8dc43ab1-a696-49ec-b655-f72d1a62bd47_ilide.info-chapeuzinho-vermelho-ty0h4d-pr_8cc136d1229b824c606b4c4d8792b255.pdf",
+    "usedMaterials": [],
+    "difficulty": "",
+    "creationDate": "2026-01-30",
+    "time": "8 h",
+    "productionCost": ""
+  },
+  {
+    "id": 4,
+    "title": "Cinderela",
+    "image": "assets/images/pin_4.jpeg",
+    "tags": [
+      "doll",
+      "disney",
+      "fluffy"
+    ],
+    "pdf": "assets/pdf/857ba358-d4fe-46d3-b08d-5361ccbe0f17_ilide.info-cenicienta-funko-pr_167374afec86c56b359e46587f06f827.pdf",
+    "usedMaterials": [],
+    "difficulty": "",
+    "creationDate": "2026-01-30",
+    "time": "4 h",
+    "productionCost": ""
+  }
+]
