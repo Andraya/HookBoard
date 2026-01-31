@@ -14,7 +14,7 @@ This project will be used to practice languages and concepts that I've learned o
 - [x] Dedicated details page with PDF viewer, project info, costs, and selling price
 - [ ] Real-time search by title or tags
 - [x] Customizable tags for categorizing pins
-- [ ] Data stored in JSON (phase 1) → migration to backend with database
+- [x] Backend implemented with JSON storage (phase 1) → migration to database
 - [ ] Images and PDFs hosted in the cloud (Google Drive / other services)
 - [x] Timer widget on details page (start, pause, reset)
 - [x] Counter widget on details page (increment, decrement, reset)
@@ -37,7 +37,7 @@ This project will be used to practice languages and concepts that I've learned o
 - HTML5
 - CSS3 (with CSS Grid, Flexbox, custom properties for theming)
 - Vanilla JavaScript (DOM manipulation)
-- Python 
+- Python (Flask for backend) 
 
 **Future Migration**
 - React (Vite)
