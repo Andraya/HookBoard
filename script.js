@@ -45,7 +45,7 @@ async function loadPins() { //async function to load pins from JSON without relo
     main.innerHTML = ''; // Clear existing hard-coded cards
     pins.forEach(pin => { // Loop through each pin and create card elements
       const cardLink = document.createElement('a'); // Create link element
-      cardLink.href = 'details.html'; // Link to details page
+      cardLink.href = `details.html?id=${pin.id}`; // Link to details page with pin ID
       cardLink.className = 'card-link'; // Add class for styling; 
       
       const article = document.createElement('article'); // Create article element
