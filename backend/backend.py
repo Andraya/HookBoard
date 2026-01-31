@@ -146,18 +146,5 @@ def delete_pin(pin_id):
 
     return redirect(url_for('index'))
 
-# API endpoint to get a specific pin by ID
-@app.route('/api/pin/<int:pin_id>')
-def get_pin(pin_id):
-    pins_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'pins.json')
-    with open(pins_path, 'r') as f:
-        pins = json.load(f)
-    
-    pin = next((p for p in pins if p['id'] == pin_id), None) # find the pin with the specified ID
-    if pin:
-        return json.dumps(pin) # return the pin data as JSON
-    else:
-        return json.dumps({"error": "Pin not found"}), 404 # return 404 error if pin not found
-
 if __name__ == '__main__':
     app.run(debug=True) # run the flask app in debug mode when this script is executed directly
