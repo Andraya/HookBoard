@@ -49,6 +49,9 @@
       <a href="#" class="sidebar-link" title="Messages">
         <i class="fas fa-envelope"></i>
       </a>
+      <a href="/add_pin" class="sidebar-link" title="Add Pin">
+        <i class="fas fa-plus"></i>
+      </a>
     </nav>
     
     <div class="sidebar-footer">
@@ -333,6 +336,37 @@
 <footer class="footer">
   <p>&copy; 2026 HookBoard. All rights reserved.</p>
 </footer>
+
+<!-- Edit Modal -->
+ <!-- Makes a small modal window for editing a pin -->
+<div id="editModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Editar Pin</h2>
+    <form id="editForm">
+      <input type="hidden" id="editPinId" name="pinId">
+      <label for="editTitle">Título:</label>
+      <input type="text" id="editTitle" name="title" required><br><br>
+
+      <label for="editTags">Tags (separadas por vírgula):</label>
+      <input type="text" id="editTags" name="tags"><br><br>
+
+      <label for="editDifficulty">Dificuldade:</label>
+      <input type="text" id="editDifficulty" name="difficulty"><br><br>
+
+      <label for="editTime">Tempo:</label>
+      <input type="text" id="editTime" name="time"><br><br>
+
+      <label for="editProductionCost">Custo de Produção:</label>
+      <input type="text" id="editProductionCost" name="productionCost"><br><br>
+
+      <label for="editUsedMaterials">Materiais Usados (separados por vírgula):</label>
+      <input type="text" id="editUsedMaterials" name="usedMaterials"><br><br>
+
+      <button type="submit">Atualizar</button>
+    </form>
+  </div>
+</div>
 
 </body>
 </html>

@@ -3,15 +3,16 @@ import fitz  # PyMuPDF; Library for PDF processing, in this case to extract imag
 import os
 
 # Load pins from JSON
-with open('../frontend/data/pins.json', 'r') as f:
+with open('../data/pins.json', 'r') as f:
     pins = json.load(f) 
 
 # Process each pin
 for pin in pins:
-    if ('image' not in pin or not pin['image']) and 'pdf' in pin and pin['pdf'] and os.path.exists(os.path.join('../frontend', pin['pdf'])):
+    if ('image' not in pin or not pin['image']) and 'pdf' in pin and pin['pdf'] and os.path.exists(os.path.join('..', pin['pdf'])):
     #if there is no image associated with the pin, but there is a PDF file, it will try to extract the first image from the PDF
         try: 
-            doc = fitz.open(pin['pdf']) # Open the PDF file with PyMuPDF, allowing the manipulation and extraction of its contents
+            pdf_full_path = os.path.join('..', pin['pdf'])
+            doc = fitz.open(pdf_full_path) # Open the PDF file with PyMuPDF, allowing the manipulation and extraction of its contents
             extracted = False
             for page in doc:
                 images = page.get_images(full=True) # Retrieve all images on the current page of the PDF
@@ -21,11 +22,11 @@ for pin in pins:
                     image_bytes = base_image["image"] # Get the raw image bytes
                     image_ext = base_image["ext"] # Get the image file extension 
                     image_name = f"pin_{pin['id']}.{image_ext}" # Create a unique image name based on the pin ID
-                    image_path = os.path.join("../frontend/assets", "images", image_name) # Define the path to save the extracted image
+                    image_path = os.path.join("..", "assets", "images", image_name) # Define the path to save the extracted image
                     os.makedirs(os.path.dirname(image_path), exist_ok=True) # Ensure the directory exists
                     with open(image_path, "wb") as img_file: # Write the extracted image bytes to a file
                         img_file.write(image_bytes)
-                    pin['image'] = image_path # Update the pin's image field with the path to the extracted image
+                    pin['image'] = "assets/images/" + image_name # Update the pin's image field with the path to the extracted image
                     extracted = True # Mark that an image has been extracted
                     break  # Only extract the first image found
             doc.close()
@@ -42,7 +43,7 @@ for pin in pins:
             print(f"PDF not found for pin {pin['id']}")
 
 # Save updated pins back to JSON
-with open('../frontend/data/pins.json', 'w') as f:
+with open('../data/pins.json', 'w') as f:
     json.dump(pins, f, indent=2) # Save the updated pins with extracted image paths back to the JSON file
 
 print("Image extraction completed.")
