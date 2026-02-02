@@ -8,11 +8,29 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure DOM is loaded be
   }).catch(error => console.error('Error loading timer module:', error));
 
   // Initialize pins functionality
-  import('../modules/pins.js').then(({ renderPins, sortPins, renderCardsView, initializePinEditForm }) => {
+  import('../modules/pins.js').then(({ renderPins, sortPins, renderCardsView, initializePinEditForm, getUniqueTags }) => {
     import('../modules/api.js').then(async (api) => {
       try {
         const pins = await api.loadPins();
         renderPins(pins);
+
+        // Generate dynamic nav tags
+        const uniqueTags = getUniqueTags();
+        const navTagsContainer = document.getElementById('nav-tags');
+        if (navTagsContainer) {
+          import('../modules/helper.js').then(({ generateColorFromString }) => {
+            uniqueTags.forEach(tag => {
+              const bgColor = generateColorFromString(tag);
+              const tagLink = document.createElement('a');
+              tagLink.href = `#category-${tag}`;
+              tagLink.className = 'nav-tag';
+              tagLink.style.backgroundColor = bgColor;
+              tagLink.style.color = '#333';
+              tagLink.textContent = tag;
+              navTagsContainer.appendChild(tagLink);
+            });
+          });
+        }
 
         // Add sorting functionality
         const sortSelect = document.getElementById('sort-select');

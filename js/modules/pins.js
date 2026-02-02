@@ -5,6 +5,7 @@
 
 import { createElement, appendChild, clear } from './dom.js';
 import * as api from './api.js';
+import { generateColorFromString } from './helper.js';
 
 // All pins storage
 let allPins = [];
@@ -75,8 +76,10 @@ export function createPinCard(pin) {
   const tagsDiv = createElement('div', 'tags');
   if (pin.tags && pin.tags.length > 0) {
     pin.tags.forEach(tag => {
-      const span = createElement('span', `tag tag--${tag}`, {
-        textContent: tag
+      const bgColor = generateColorFromString(tag);
+      const span = createElement('span', 'tag', {
+        textContent: tag,
+        style: `background-color: ${bgColor}; color: #333;`
       });
       appendChild(tagsDiv, span);
     });
@@ -97,6 +100,20 @@ export function renderPins(pins) {
   allPins = pins; // Store all pins
 
   renderCardsView(pins);
+}
+
+/**
+ * Get unique tags from all pins
+ * @returns {Array<string>} Array of unique tags
+ */
+export function getUniqueTags() {
+  const tagsSet = new Set();
+  allPins.forEach(pin => {
+    if (pin.tags) {
+      pin.tags.forEach(tag => tagsSet.add(tag));
+    }
+  });
+  return Array.from(tagsSet).sort();
 }
 
 /**
