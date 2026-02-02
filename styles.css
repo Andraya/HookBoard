@@ -272,6 +272,7 @@
       font-weight: 500;
       text-decoration: none;
       padding: 0.375rem 0.75rem;
+      margin-right: 0.5rem;
       border-radius: 50px;
       transition: all 0.2s ease;
       white-space: nowrap;

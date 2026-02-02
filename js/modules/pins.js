@@ -13,9 +13,10 @@ let allPins = [];
 /**
  * Create a pin card element
  * @param {Object} pin - Pin data object
+ * @param {Object} colorMap - Map of tag to color
  * @returns {Element} Link element containing the card
  */
-export function createPinCard(pin) {
+export function createPinCard(pin, colorMap = {}) {
   // Create link wrapper
   const cardLink = createElement('a', '', {
     href: `details.html?id=${pin.id}`
@@ -76,7 +77,7 @@ export function createPinCard(pin) {
   const tagsDiv = createElement('div', 'tags');
   if (pin.tags && pin.tags.length > 0) {
     pin.tags.forEach(tag => {
-      const bgColor = generateColorFromString(tag);
+      const bgColor = colorMap[tag] || generateColorFromString(tag);
       const span = createElement('span', 'tag', {
         textContent: tag,
         style: `background-color: ${bgColor}; color: #333;`
@@ -95,11 +96,12 @@ export function createPinCard(pin) {
 /**
  * Render all pins in card view
  * @param {Array<Object>} pins - Array of pin objects
+ * @param {Object} colorMap - Map of tag to color
  */
-export function renderPins(pins) {
+export function renderPins(pins, colorMap = {}) {
   allPins = pins; // Store all pins
 
-  renderCardsView(pins);
+  renderCardsView(pins, colorMap);
 }
 
 /**
@@ -154,8 +156,9 @@ export function sortPins(sortBy) {
 /**
  * Render pins in card/masonry view
  * @param {Array<Object>} pins - Array of pin objects
+ * @param {Object} colorMap - Map of tag to color
  */
-export function renderCardsView(pins) {
+export function renderCardsView(pins, colorMap = {}) {
   const cardsView = document.querySelector('.masonry-grid');
   if (!cardsView) return;
 
@@ -170,7 +173,7 @@ export function renderCardsView(pins) {
   }
 
   pins.forEach(pin => {
-    const cardLink = createPinCard(pin);
+    const cardLink = createPinCard(pin, colorMap);
     appendChild(cardsView, cardLink);
   });
 }

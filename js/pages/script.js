@@ -12,23 +12,29 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure DOM is loaded be
     import('../modules/api.js').then(async (api) => {
       try {
         const pins = await api.loadPins();
-        renderPins(pins);
+
+        // Extract unique tags from pins
+        const uniqueTags = [...new Set(pins.flatMap(pin => pin.tags || []))].sort();
+        let colorMap = {};
+        if (uniqueTags.length > 0) {
+          const { generateColorsForTags } = await import('../modules/helper.js');
+          colorMap = generateColorsForTags(uniqueTags);
+        }
+
+        renderPins(pins, colorMap);
 
         // Generate dynamic nav tags
-        const uniqueTags = getUniqueTags();
         const navTagsContainer = document.getElementById('nav-tags');
         if (navTagsContainer) {
-          import('../modules/helper.js').then(({ generateColorFromString }) => {
-            uniqueTags.forEach(tag => {
-              const bgColor = generateColorFromString(tag);
-              const tagLink = document.createElement('a');
-              tagLink.href = `#category-${tag}`;
-              tagLink.className = 'nav-tag';
-              tagLink.style.backgroundColor = bgColor;
-              tagLink.style.color = '#333';
-              tagLink.textContent = tag;
-              navTagsContainer.appendChild(tagLink);
-            });
+          uniqueTags.forEach(tag => {
+            const bgColor = colorMap[tag];
+            const tagLink = document.createElement('a');
+            tagLink.href = `#category-${tag}`;
+            tagLink.className = 'nav-tag';
+            tagLink.style.backgroundColor = bgColor;
+            tagLink.style.color = '#333';
+            tagLink.textContent = tag;
+            navTagsContainer.appendChild(tagLink);
           });
         }
 
@@ -37,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => { // Ensure DOM is loaded be
         if (sortSelect) {
           sortSelect.addEventListener('change', () => {
             const sortedPins = sortPins(sortSelect.value);
-            renderCardsView(sortedPins);
+            renderCardsView(sortedPins, colorMap);
           });
         }
 

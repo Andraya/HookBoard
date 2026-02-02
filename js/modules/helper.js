@@ -276,7 +276,24 @@ export function groupBy(arr, property) {
 }
 
 /**
- * Generate a consistent pastel color from a string using hash
+ * Generate colors for a list of tags, ensuring consistency and variety
+ * @param {Array<string>} tags - Array of tag strings
+ * @returns {Object} Map of tag to color
+ */
+export function generateColorsForTags(tags) {
+  const colorMap = {};
+  // Reset used hues for fresh generation
+  usedHues.length = 0;
+
+  tags.forEach(tag => {
+    colorMap[tag] = generateColorFromString(tag);
+  });
+
+  return colorMap;
+}
+
+/**
+ * Generate a consistent pastel color from a string using hash, ensuring variety
  * @param {string} str - String to hash
  * @returns {string} HSL color string
  */

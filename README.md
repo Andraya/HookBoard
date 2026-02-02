@@ -13,8 +13,10 @@ This project will be used to practice languages and concepts that I've learned o
 - [x] Clicking a card opens a dedicated page with PDF viewer
 - [x] Dedicated details page with PDF viewer, project info, costs, and selling price
 - [ ] Real-time search by title or tags
-- [x] Customizable tags for categorizing pins
-- [ ] Data stored in JSON (phase 1) → migration to backend with database
+- [x] Dynamic tags with auto-generated pastel colors for categorizing pins
+  - Tags are added automatically as users input them in projects
+  - Colors are generated consistently per tag with variety across the spectrum
+- [x] Data stored in JSON (phase 1) → migration to backend with database
 - [ ] Images and PDFs hosted in the cloud (Google Drive / other services)
 - [x] Timer widget on details page (start, pause, reset)
 - [x] Counter widget on details page (increment, decrement, reset)
@@ -42,10 +44,9 @@ This project will be used to practice languages and concepts that I've learned o
 **Future Migration**
 - React (Vite)
 - React Router (navigation)
-- CSS
 - Axios / fetch for API calls
 
 **Backend** 
 - Python + FastAPI / Flask
-- SQLite (or PostgreSQL)
-- Cloud storage integration
+- SQLite (or PostgreSQL) (future implementation)
+- Cloud storage integration (future implementation)
