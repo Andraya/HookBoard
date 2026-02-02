@@ -32,6 +32,15 @@
         <a href="/">Cancelar</a>
     </form>
 
-    <script src="edit_pin.js"></script>
+    <script type="module">
+        // Get pin ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const pinId = urlParams.get('id');
+
+        // Initialize edit page
+        import('./js/modules/pins.js').then(pins => {
+            pins.initializeEditPage(pinId);
+        }).catch(error => console.error('Error loading pins module:', error));
+    </script>
 </body>
 </html>
