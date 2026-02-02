@@ -33,6 +33,35 @@ export function createPinCard(pin) {
   appendChild(imgWrapper, img);
   appendChild(article, imgWrapper);
 
+  // Create kebab menu container
+  const kebabContainer = createElement('div', 'kebab-container');
+  const kebabBtn = createElement('button', 'kebab-btn');
+  const kebabIcon = createElement('i', 'fa-solid fa-ellipsis-vertical');
+  appendChild(kebabBtn, kebabIcon);
+  appendChild(kebabContainer, kebabBtn);
+
+  // Create kebab menu
+  const menu = createElement('div', 'kebab-menu');
+  const editOption = createElement('div', 'kebab-menu-item');
+  const editIcon = createElement('i', 'fa-solid fa-pencil');
+  appendChild(editOption, editIcon);
+  editOption.onclick = (e) => {
+    e.preventDefault();
+    handleEditPin(pin);
+  };
+  appendChild(menu, editOption);
+
+  const deleteOption = createElement('div', 'kebab-menu-item');
+  const deleteIcon = createElement('i', 'fa-solid fa-trash');
+  appendChild(deleteOption, deleteIcon);
+  deleteOption.onclick = async (e) => {
+    e.preventDefault();
+    await handleDeletePin(pin.id);
+  };
+  appendChild(menu, deleteOption);
+  appendChild(kebabContainer, menu);
+  appendChild(article, kebabContainer);
+
   // Create card content
   const content = createElement('div', 'card-content');
 
@@ -54,30 +83,6 @@ export function createPinCard(pin) {
   }
   appendChild(content, tagsDiv);
 
-  // Create buttons
-  const buttonsDiv = createElement('div', 'card-buttons');
-
-  // Create edit button
-  const editBtn = createElement('button', 'btn-edit', {
-    textContent: 'Editar'
-  });
-  editBtn.onclick = (e) => {
-    e.preventDefault();
-    handleEditPin(pin);
-  };
-  appendChild(buttonsDiv, editBtn);
-
-  // Create delete button
-  const deleteBtn = createElement('button', 'btn-delete', {
-    textContent: 'Apagar'
-  });
-  deleteBtn.onclick = async (e) => {
-    e.preventDefault();
-    await handleDeletePin(pin.id);
-  };
-  appendChild(buttonsDiv, deleteBtn);
-
-  appendChild(content, buttonsDiv);
   appendChild(article, content);
   appendChild(cardLink, article);
 
@@ -160,7 +165,7 @@ export function preFillEditForm(pin, formElement) {
  * @param {number} pinId - ID of pin to delete
  */
 export async function handleDeletePin(pinId) {
-  if (!confirm('Tem certeza que quer apagar este pin?')) {
+  if (!confirm('Are you sure you want to delete this pin?')) {
     return;
   }
 
