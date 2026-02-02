@@ -100,10 +100,45 @@ export function renderPins(pins) {
 }
 
 /**
+ * Sort pins based on criteria
+ * @param {string} sortBy - Sort criteria: 'name', 'newest', 'oldest', 'this-month'
+ * @returns {Array<Object>} Sorted pins
+ */
+export function sortPins(sortBy) {
+  let sorted = [...allPins];
+
+  switch (sortBy) {
+    case 'name':
+      sorted.sort((a, b) => a.title.localeCompare(b.title));
+      break;
+    case 'newest':
+      sorted.sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate));
+      break;
+    case 'oldest':
+      sorted.sort((a, b) => new Date(a.creationDate) - new Date(b.creationDate));
+      break;
+    case 'this-month':
+      const now = new Date();
+      const thisMonth = now.getMonth();
+      const thisYear = now.getFullYear();
+      sorted = sorted.filter(pin => {
+        const pinDate = new Date(pin.creationDate);
+        return pinDate.getMonth() === thisMonth && pinDate.getFullYear() === thisYear;
+      });
+      sorted.sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate));
+      break;
+    default:
+      break;
+  }
+
+  return sorted;
+}
+
+/**
  * Render pins in card/masonry view
  * @param {Array<Object>} pins - Array of pin objects
  */
-function renderCardsView(pins) {
+export function renderCardsView(pins) {
   const cardsView = document.querySelector('.masonry-grid');
   if (!cardsView) return;
 
