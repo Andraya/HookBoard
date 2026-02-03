@@ -146,5 +146,52 @@ def delete_pin(pin_id):
 
     return redirect(url_for('index'))
 
+# ==================== CALCULATOR ROUTES ====================
+
+# Save calculator products
+@app.route('/save_calculator', methods=['POST'])
+def save_calculator():
+    try:
+        # Get JSON data from request
+        products = request.get_json()
+        
+        # Define calculator.json path
+        calculator_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'calculator.json')
+        
+        # Create directory if it doesn't exist
+        os.makedirs(os.path.dirname(calculator_path), exist_ok=True)
+        
+        # Save to JSON file
+        with open(calculator_path, 'w') as f:
+            json.dump(products, f, indent=2)
+        
+        return {'status': 'success', 'message': 'Produtos guardados com sucesso'}, 200
+    except Exception as e:
+        print(f'Erro ao guardar produtos: {str(e)}')
+        return {'status': 'error', 'message': str(e)}, 500
+
+# Delete a calculator product
+@app.route('/delete_calculator_product/<int:product_id>', methods=['POST'])
+def delete_calculator_product(product_id):
+    try:
+        # Define calculator.json path
+        calculator_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'calculator.json')
+        
+        # Load existing products
+        with open(calculator_path, 'r') as f:
+            products = json.load(f)
+        
+        # Remove the product
+        products = [p for p in products if p['id'] != product_id]
+        
+        # Save updated products
+        with open(calculator_path, 'w') as f:
+            json.dump(products, f, indent=2)
+        
+        return {'status': 'success', 'message': 'Produto eliminado com sucesso'}, 200
+    except Exception as e:
+        print(f'Erro ao eliminar produto: {str(e)}')
+        return {'status': 'error', 'message': str(e)}, 500
+
 if __name__ == '__main__':
     app.run(debug=True) # run the flask app in debug mode when this script is executed directly

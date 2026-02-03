@@ -16,10 +16,10 @@ let allPins = [];
  * @param {Object} colorMap - Map of tag to color
  * @returns {Element} Link element containing the card
  */
-export function createPinCard(pin, colorMap = {}) {
+export async function createPinCard(pin, colorMap = {}) {
   // Create link wrapper
   const cardLink = createElement('a', '', {
-    href: `details.html?id=${pin.id}`
+    href: `pages/details.html?id=${pin.id}`
   });
 
   // Create article/card element
@@ -93,7 +93,7 @@ export function createPinCard(pin, colorMap = {}) {
   });
   appendChild(actionsContainer, heartBtn);
   
-  // Create sticky note, later to be connected to product stock functionality
+  // Create sticky note, connected to product stock functionality
   const stickyNote = createElement('div', 'card-stock-note');
   const noteIcon = createElement('i', 'fa-solid fa-note-sticky');
   const stockNumber = createElement('span', 'card-stock-number', {
@@ -102,6 +102,16 @@ export function createPinCard(pin, colorMap = {}) {
   appendChild(stickyNote, noteIcon);
   appendChild(stickyNote, stockNumber);
   appendChild(actionsContainer, stickyNote);
+  
+  // Add click event to sticky note to navigate to calculator with product filter
+  stickyNote.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (pin.productName) {
+      window.location.href = `pages/calculator.html?productName=${encodeURIComponent(pin.productName)}&pinId=${pin.id}`;
+    }
+  });
+  stickyNote.style.cursor = 'pointer';
   
   appendChild(titleHeader, actionsContainer);
   appendChild(content, titleHeader);
@@ -123,7 +133,53 @@ export function createPinCard(pin, colorMap = {}) {
   appendChild(article, content);
   appendChild(cardLink, article);
 
+  // Fetch and update stock number from products
+  if (pin.productName) {
+    try {
+      const products = await loadProductsData();
+      const groupedProducts = groupByProductName(products);
+      const group = groupedProducts[pin.productName];
+      if (group) {
+        const stockTotal = group.reduce((sum, p) => sum + (p.stock || 0), 0);
+        stockNumber.textContent = stockTotal;
+      }
+    } catch (error) {
+      console.error('Error loading product data:', error);
+    }
+  }
+
   return cardLink;
+}
+
+/**
+ * Group products by name
+ * @param {Array} products - Array of product objects
+ * @returns {Object} Object with product names as keys and arrays of products as values
+ */
+function groupByProductName(products) {
+  const groups = {};
+  products.forEach(product => {
+    if (!groups[product.name]) {
+      groups[product.name] = [];
+    }
+    groups[product.name].push(product);
+  });
+  return groups;
+}
+
+/**
+ * Load products data from storage
+ * @returns {Promise<Array>} Array of product objects
+ */
+async function loadProductsData() {
+  try {
+    const response = await fetch('/data/calculator.json');
+    if (!response.ok) throw new Error('Failed to load calculator.json');
+    return await response.json();
+  } catch (error) {
+    console.error('Error loading products:', error);
+    return [];
+  }
 }
 
 /**
@@ -191,7 +247,7 @@ export function sortPins(sortBy) {
  * @param {Array<Object>} pins - Array of pin objects
  * @param {Object} colorMap - Map of tag to color
  */
-export function renderCardsView(pins, colorMap = {}) {
+export async function renderCardsView(pins, colorMap = {}) {
   const cardsView = document.querySelector('.masonry-grid');
   if (!cardsView) return;
 
@@ -205,10 +261,10 @@ export function renderCardsView(pins, colorMap = {}) {
     return;
   }
 
-  pins.forEach(pin => {
-    const cardLink = createPinCard(pin, colorMap);
+  for (const pin of pins) {
+    const cardLink = await createPinCard(pin, colorMap);
     appendChild(cardsView, cardLink);
-  });
+  }
 }
 
 /**

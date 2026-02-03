@@ -12,7 +12,8 @@
     "difficulty": "",
     "creationDate": "2026-01-29",
     "time": "",
-    "productionCost": ""
+    "productionCost": "",
+    "productName": "Squirtle"
   },
   {
     "id": 2,
@@ -28,7 +29,8 @@
     "difficulty": "",
     "creationDate": "2026-01-29",
     "time": "",
-    "productionCost": ""
+    "productionCost": "",
+    "productName": "Strawberry Cow"
   },
   {
     "id": 3,
@@ -44,7 +46,8 @@
     "difficulty": "",
     "creationDate": "2026-01-30",
     "time": "8 h",
-    "productionCost": ""
+    "productionCost": "",
+    "productName": "Capuchinho vermelho"
   },
   {
     "id": 4,
@@ -60,6 +63,7 @@
     "difficulty": "",
     "creationDate": "2026-01-30",
     "time": "4 h",
-    "productionCost": ""
+    "productionCost": "",
+    "productName": "Cinderela"
   }
 ]

@@ -1,199 +1,295 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Calculadora</title>
-    <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #fff5f8; padding: 15px; font-size: 13px; }
-        .container { max-width: 1300px; margin: auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-        .card { border: 1px dashed #fbcfe8; padding: 15px; border-radius: 12px; background: #fff; }
-        h3 { color: #d63384; margin-top: 0; border-bottom: 1px solid #fce7f3; padding-bottom: 5px; font-size: 1.1em; }
-        
-        label { display: block; margin-top: 8px; font-weight: 600; font-size: 0.75em; color: #666; text-transform: uppercase; }
-        input, select { width: 100%; padding: 7px; margin-top: 4px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
-        
-        .markup-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
-        .markup-item { background: #fdf2f8; padding: 6px; border-radius: 6px; text-align: center; border: 1px solid #fbcfe8; cursor: pointer; transition: 0.2s; }
-        .markup-item:hover { background: #fce7f3; transform: translateY(-2px); }
-        .markup-val { display: block; font-weight: bold; color: #d63384; }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cost Calculator</title>
+  <!-- Link to CSS -->
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="calculator-styles.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- HTMX -->
+  <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 
-        .resumo-detalhado { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #f8f9fa; padding: 12px; border-radius: 10px; border-left: 5px solid #d63384; margin-bottom: 15px; }
-        .resumo-detalhado p { margin: 3px 0; font-size: 0.9em; }
-
-        .btn-add { background: #6366f1; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; margin-top: 8px; font-size: 0.8em; }
-        .btn-save { background: #d63384; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 15px; }
-        
-        .table-container { overflow-x: auto; margin-top: 20px; }
-        table { width: 100%; border-collapse: collapse; background: white; min-width: 1100px; }
-        th { background: #fce7f3; color: #be185d; padding: 10px; text-align: left; font-size: 0.8em; border: 1px solid #fbcfe8; }
-        td { padding: 10px; border: 1px solid #eee; vertical-align: middle; }
-        
-        .badge { padding: 2px 5px; border-radius: 4px; font-weight: bold; font-size: 0.85em; display: inline-block; margin-top: 2px; }
-        .p-promo { background: #dcfce7; color: #166534; }
-        .p-norm { background: #f1f5f9; color: #475569; }
-    </style>
 </head>
 <body>
+<!-- Header -->
+  <div hx-get="modules/header.html" hx-trigger="load"></div>
 
-<div class="container">
-    <h1 style="text-align:center; color:#d63384;">🧶 Painel Aya: Gestão de Preços Completa</h1>
+<!-- Main Content Container -->
+<main class="main-content-wrapper">
 
-    <div class="grid">
-        <div class="card">
-            <h3>1. Dados da Execução</h3>
-            <div style="display:flex; gap:10px;">
-                <div style="flex:2"><label>Projeto</label><input type="text" id="nome" placeholder="Ex: Urso"></div>
-                <div style="flex:1"><label>Cor</label><input type="text" id="cor" placeholder="Bege"></div>
-            </div>
-            <div style="display:flex; gap:10px;">
-                <div style="flex:1.5">
-                    <label>Linha</label>
-                    <select id="tipoLinha" onchange="recalc()">
-                        <option value="0.08,0.044">Baby Snuggle Solid</option>
-                        <option value="0.079,0.054">Honey Bunny</option>
-                        <option value="0.045,0.045">Rainbow Cotton 8/8</option>
-                    </select>
-                </div>
-                <div style="flex:1"><label>Total (g)</label><input type="number" id="pTotal" oninput="recalc()" value="0"></div>
-                <div style="flex:1"><label>Linha (g)</label><input type="number" id="pLinha" oninput="recalc()" value="0"></div>
-            </div>
-            <div style="display:flex; gap:10px;">
-                <div style="flex:1"><label>Hook</label><input type="text" id="hook" value="4mm"></div>
-                <div style="flex:1"><label>Tempo (h)</label><input type="number" id="tempo" value="1" oninput="recalc()"></div>
-            </div>
-            <label>Extras</label>
-            <div id="listaExtras"></div>
-            <button class="btn-add" onclick="addExtra()">+ Adicionar Extra</button>
+<!-- Modal Backdrop -->
+<div class="modal-backdrop" id="modalBackdrop"></div>
+
+<!-- Modal Form -->
+<div class="modal-container" id="formSection">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Add New Product</h2>
+            <button class="modal-close" id="btnCloseForm">✕</button>
         </div>
+        <div class="modal-body">
+            <div class="modal-form-grid">
+                <!-- SECTION 1: Product Input -->
+                <div class="calculator-card">
+                    <h3>1. Execution Data</h3>
+                    <div class="form-row">
+                        <div class="form-group flex-2">
+                            <label for="productName">Project</label>
+                            <input type="text" id="productName" placeholder="Ex: Bear" class="form-input">
+                        </div>
+                        <div class="form-group flex-1">
+                            <label for="productColor">Colors</label>
+                            <div class="color-input-wrapper">
+                                <input type="text" id="productColor" placeholder="Ex: White" class="form-input color-input">
+                                <button type="button" id="btnAddColor" class="btn-secondary btn-add-color">+</button>
+                            </div>
+                            <div id="colorsList" class="colors-list"></div>
+                        </div>
+                    </div>
 
-        <div class="card">
-            <h3>2. Análise Detalhada de Custos</h3>
-            <div class="resumo-detalhado">
-                <div>
-                    <p>Custo Linha (N): <strong id="resLinhaN">0.00€</strong></p>
-                    <p>Custo Linha (P): <strong id="resLinhaP">0.00€</strong></p>
-                    <p>Enchimento: <strong id="resEnch">0.00€</strong></p>
+                    <div class="form-row">
+                        <div class="form-group flex-2">
+                            <label for="yarnType">Yarn</label>
+                            <!-- This will later come from the stock database -->
+                            <select id="yarnType" class="form-input" data-input="yarn-type">
+                                <option value="baby-snuggle">Baby Snuggle Solid</option>
+                                <option value="honey-bunny">Honey Bunny</option>
+                                <option value="rainbow-cotton">Rainbow Cotton 8/8</option>
+                            </select>
+                        </div>
+                        <div class="form-group flex-1">
+                            <label for="totalWeight">Total (g)</label>
+                            <input type="number" id="totalWeight" class="form-input" data-input="weight-total" value="0" step="1">
+                        </div>
+                        <div class="form-group flex-1">
+                            <label for="yarnWeight">Yarn (g)</label>
+                            <input type="number" id="yarnWeight" class="form-input" data-input="weight-yarn" value="0" step="1">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label for="hook">Hook</label>
+                            <input type="text" id="hook" class="form-input" value="4 mm">
+                        </div>
+                        <div class="form-group flex-1">
+                            <label for="hours">Time (h)</label>
+                            <input type="number" id="hours" class="form-input" data-input="time-hours" value="1" step="0.5">
+                        </div>
+                    </div>
+
+                    <div class="extras-section">
+                        <label>Extras</label>
+                        <div id="extrasContainer"></div>
+                        <button class="btn-secondary" id="btnAddExtra">+ Add Extras</button>
+                    </div>
                 </div>
-                <div>
-                    <p>Mão de Obra: <strong id="resTempo">0.00€</strong></p>
-                    <p>Extras: <strong id="resExtras">0.00€</strong></p>
-                    <hr>
-                    <p><strong>Total Normal: <span id="totalNormal">0.00€</span></strong></p>
-                    <p><strong style="color:#166534;">Total Promo: <span id="totalPromo">0.00€</span></strong></p>
+
+                <!-- SECTION 2: Cost Analysis -->
+                <div class="calculator-card">
+                    <h3>2. Detailed Cost Analysis</h3>
+                    
+                    <div class="cost-summary">
+                        <div class="cost-column">
+                            <p class="cost-item">
+                                <span>Yarn Cost: <small>(Normal)</small></span>
+                                <strong id="yarnCostNormal">0.00€</strong>
+                            </p>
+                            <p class="cost-item">
+                                <span>Yarn Cost: <small>(Promo)</small></span>
+                                <strong id="yarnCostPromo">0.00€</strong>
+                            </p>
+                            <p class="cost-item">
+                                <span>Filling:</span>
+                                <strong id="fillingCost">0.00€</strong>
+                            </p>
+                        </div>
+                        <div class="cost-column">
+                            <p class="cost-item">
+                                <span>Labor:</span>
+                                <strong id="laborCost">0.00€</strong>
+                            </p>
+                            <p class="cost-item">
+                                <span>Extras:</span>
+                                <strong id="extrasCost">0.00€</strong>
+                            </p>
+                            <hr>
+                            <p class="cost-item cost-total">
+                                <span>Total: <small>(Normal)</small></span>
+                                <strong id="totalNormal">0.00€</strong>
+                            </p>
+                            <p class="cost-item cost-total-promo">
+                                <span>Total: <small>(Promo)</small></span>
+                                <strong id="totalPromo">0.00€</strong>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="markup-section">
+                        <label>Markups</label>
+                        <div class="markup-grid">
+                            <button class="markup-item" data-markup="1.10">
+                                <small>+10 %</small>
+                                <span class="markup-val" id="m10">0€</span>
+                            </button>
+                            <button class="markup-item" data-markup="1.25">
+                                <small>+25 %</small>
+                                <span class="markup-val" id="m25">0€</span>
+                            </button>
+                            <button class="markup-item" data-markup="1.50">
+                                <small>+50 %</small>
+                                <span class="markup-val" id="m50">0€</span>
+                            </button>
+                            <button class="markup-item" data-markup="2.00">
+                                <small>+100 %</small>
+                                <span class="markup-val" id="m100">0€</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="sale-section">
+                        <div class="form-group">
+                            <label for="salePrice">Final Price (€)</label>
+                            <input type="number" id="salePrice" class="form-input" data-input="sale-price" value="0" step="0.01">
+                        </div>
+
+                        <div class="profit-boxes">
+                            <div class="profit-box profit-promo">
+                                <small>PROFIT PROMO</small>
+                                <strong id="profitPromo">0.00€</strong>
+                            </div>
+                            <div class="profit-box profit-normal">
+                                <small>PROFIT NORMAL</small>
+                                <strong id="profitNormal">0.00€</strong>
+                            </div>
+                        </div>
+
+                        <button class="btn-primary" id="btnSave">SAVE</button>
+                    </div>
                 </div>
             </div>
-
-            <label>Markups Sugeridos (s/ Custo Normal):</label>
-            <div class="markup-grid">
-                <div class="markup-item" onclick="setVenda(1.10)"><small>+10%</small><span class="markup-val" id="m10">0€</span></div>
-                <div class="markup-item" onclick="setVenda(1.25)"><small>+25%</small><span class="markup-val" id="m25">0€</span></div>
-                <div class="markup-item" onclick="setVenda(1.50)"><small>+50%</small><span class="markup-val" id="m50">0€</span></div>
-                <div class="markup-item" onclick="setVenda(2.00)"><small>+100%</small><span class="markup-val" id="m100">0€</span></div>
-            </div>
-
-            <div style="display:flex; gap:10px; align-items:flex-end; margin-top:15px;">
-                <div style="flex:1;"><label>Venda Final (€)</label><input type="number" id="pVenda" value="0" oninput="recalc()"></div>
-                <div style="flex:1; padding:8px; background:#f0fdf4; border-radius:6px; border:1px solid #dcfce7;">
-                    <small>LUCRO PROMO</small><br><strong id="lucroP" style="color:#166534; font-size:1.1em;">0.00€</strong>
-                </div>
-                <div style="flex:1; padding:8px; background:#f8f9fa; border-radius:6px; border:1px solid #eee;">
-                    <small>LUCRO NORM.</small><br><strong id="lucroN" style="font-size:1.1em;">0.00€</strong>
-                </div>
-            </div>
-            <button class="btn-save" onclick="guardar()">CONCLUIR E GUARDAR</button>
         </div>
-    </div>
-
-    <div class="table-container">
-        <table id="tabelaDados">
-            <thead>
-                <tr>
-                    <th>Produto / Cor</th>
-                    <th>Técnico</th>
-                    <th>Custo Linha (N/P)</th>
-                    <th>Enchimento</th>
-                    <th>Extras + Tempo</th>
-                    <th>Produção (N/P)</th>
-                    <th>VENDA</th>
-                    <th>LUCRO (N/P)</th>
-                    <th>Stock</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
     </div>
 </div>
 
-<script>
-    const PRECO_ENCH_G = 0.01829;
-    const EXTRAS_BASE = [{n: "Olhos 12mm", p: 0.116}, {n: "Chaveiro", p: 0.07}, {n: "Olhos 16mm", p: 0.24}];
+<!-- Main Page Content -->
+<div class="container calculator-container">
+    <h1 class="page-title">🧶 Cost & Inventory Control</h1>
 
-    function addExtra() {
-        const div = document.createElement('div'); div.className = 'extra-item'; div.style.display = 'flex'; div.style.gap = '5px'; div.style.marginTop = '4px';
-        div.innerHTML = `<select class="e-p" onchange="recalc()">${EXTRAS_BASE.map(e => `<option value="${e.p}">${e.n}</option>`).join('')}</select>
-                         <input type="number" class="e-q" value="1" style="width:45px" oninput="recalc()">
-                         <button onclick="this.parentElement.remove(); recalc()">❌</button>`;
-        document.getElementById('listaExtras').appendChild(div); recalc();
-    }
+    <!-- Floating Action Button -->
+    <button class="btn-fab" id="btnToggleForm" title="Add Product"><i class="fa-solid fa-square-plus"></i></button>
 
-    function setVenda(f) { const cN = parseFloat(document.getElementById('totalNormal').innerText); document.getElementById('pVenda').value = (cN * f).toFixed(2); recalc(); }
-
-    function recalc() {
-        const pT = parseFloat(document.getElementById('pTotal').value) || 0, pL = parseFloat(document.getElementById('pLinha').value) || 0;
-        const h = parseFloat(document.getElementById('tempo').value) || 0, v = parseFloat(document.getElementById('pVenda').value) || 0;
-        const prec = document.getElementById('tipoLinha').value.split(',');
+    <!-- Products Table -->
+    <div class="table-section">
+        <h3>Created Products</h3>
         
-        const gE = Math.max(0, pT - pL), cE = gE * PRECO_ENCH_G, cT = h * 1.0;
-        let cX = 0; document.querySelectorAll('.extra-item').forEach(i => cX += (parseFloat(i.querySelector('.e-p').value) * (parseFloat(i.querySelector('.e-q').value) || 0)));
+        <!-- Filters -->
+        <div class="filters-container">
+            <div class="filter-group">
+                <label>Product:</label>
+                <input type="text" id="filterProduct" class="filter-input" placeholder="Filter by name...">
+            </div>
+            <div class="filter-group">
+                <label>Colour:</label>
+                <select id="filterColor" class="filter-input" aria-label="Filter by colour">
+                    <option value="">All Colours</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Yarn:</label>
+                <select id="filterYarn" class="filter-input" aria-label="Filter by yarn">
+                    <option value="">All Yarns</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Hook:</label>
+                <select id="filterHook" class="filter-input" aria-label="Filter by hook">
+                    <option value="">All Hooks</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Inventory:</label>
+                <select id="filterStock" class="filter-input" aria-label="Filter by inventory">
+                    <option value="">All</option>
+                    <option value="0">Out of stock</option>
+                    <option value="1+">In stock</option>
+                </select>
+            </div>
+            <button class="btn-reset" id="btnResetFilters">Clear Filters</button>
+        </div>
 
-        const cLN = pL * parseFloat(prec[0]), cLP = pL * parseFloat(prec[1]);
-        const totN = cLN + cE + cX + cT, totP = cLP + cE + cX + cT;
+        <div class="table-container">
+            <table id="productsTable">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Yarn Used</th>
+                        <th>Colours & Hooks</th>
+                        <th>€ Cost</th>
+                        <th>€ Sale / % Profit</th>
+                        <th>Inventory</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-        document.getElementById('resLinhaN').innerText = cLN.toFixed(2) + "€";
-        document.getElementById('resLinhaP').innerText = cLP.toFixed(2) + "€";
-        document.getElementById('resEnch').innerText = cE.toFixed(2) + "€";
-        document.getElementById('resTempo').innerText = cT.toFixed(2) + "€";
-        document.getElementById('resExtras').innerText = cX.toFixed(2) + "€";
-        document.getElementById('totalNormal').innerText = totN.toFixed(2) + "€";
-        document.getElementById('totalPromo').innerText = totP.toFixed(2) + "€";
-        
-        document.getElementById('m10').innerText = (totN * 1.1).toFixed(2) + "€";
-        document.getElementById('m25').innerText = (totN * 1.25).toFixed(2) + "€";
-        document.getElementById('m50').innerText = (totN * 1.5).toFixed(2) + "€";
-        document.getElementById('m100').innerText = (totN * 2.0).toFixed(2) + "€";
+<script type="module">
+    import { init, appState, recalculate, addColorToList, deleteProduct } from '../js/modules/calculator-ui.js';
 
-        document.getElementById('lucroN').innerText = (v - totN).toFixed(2) + "€";
-        document.getElementById('lucroP').innerText = (v - totP).toFixed(2) + "€";
-    }
+    // Expose to global scope for inline handlers
+    window.deleteProduct = deleteProduct;
+    window.recalculate = recalculate;
+    window.appState = appState;
+    window.addColorToList = addColorToList;
 
-    function guardar() {
-        const n = document.getElementById('nome').value, cor = document.getElementById('cor').value || "---";
-        if(!n) return alert("Nome?");
-        
-        const tb = document.getElementById('tabelaDados').querySelector('tbody'), tr = tb.insertRow(0);
-        const cLN = document.getElementById('resLinhaN').innerText, cLP = document.getElementById('resLinhaP').innerText;
-        const cE = document.getElementById('resEnch').innerText, cX = document.getElementById('resExtras').innerText;
-        const cT = document.getElementById('resTempo').innerText, tN = document.getElementById('totalNormal').innerText;
-        const tP = document.getElementById('totalPromo').innerText, v = document.getElementById('pVenda').value;
+    // Start app
+    init();
 
-        tr.innerHTML = `
-            <td><b>${n}</b><br><small>${cor}</small></td>
-            <td><small>Hook: ${document.getElementById('hook').value}<br>Peso: ${document.getElementById('pTotal').value}g</small></td>
-            <td><small>N: ${cLN}<br>P: ${cLP}</small></td>
-            <td><small>${cE}</small></td>
-            <td><small>Ext: ${cX}<br>T: ${cT}</small></td>
-            <td><small><b>N: ${tN}</b><br>P: ${tP}</small></td>
-            <td style="font-weight:bold;">${v}€</td>
-            <td><span class="badge p-norm">N: ${(v-parseFloat(tN)).toFixed(2)}€</span><br><span class="badge p-promo">P: ${(v-parseFloat(tP)).toFixed(2)}€</span></td>
-            <td><span class="qs">1</span> S | <span class="qv">0</span> V<br><button onclick="up(this,1)">+</button><button onclick="up(this,-1)">-</button></td>`;
-    }
-
-    function up(b,v) {
-        const p = b.parentElement, s = p.querySelector('.qs'), qv = p.querySelector('.qv');
-        let curS = parseInt(s.innerText), curV = parseInt(qv.innerText);
-        if(v===1) s.innerText = curS + 1; else if(curS > 0){ s.innerText = curS - 1; qv.innerText = curV + 1; }
-    }
+// Tirar isto daqui depois de testar
 </script>
+
+<!-- Load navigation tags -->
+<script type="module">
+    import('../js/modules/api.js').then(async (api) => {
+        try {
+            const pins = await api.loadPins();
+            
+            // Extract unique tags from pins
+            const uniqueTags = [...new Set(pins.flatMap(pin => pin.tags || []))].sort();
+            let colorMap = {};
+            if (uniqueTags.length > 0) {
+                const { generateColorsForTags } = await import('../js/modules/helper.js');
+                colorMap = generateColorsForTags(uniqueTags);
+            }
+
+            // Generate dynamic nav tags
+            const navTagsContainer = document.getElementById('nav-tags');
+            if (navTagsContainer) {
+                navTagsContainer.innerHTML = ''; // Clear existing content
+                uniqueTags.forEach(tag => {
+                    const bgColor = colorMap[tag];
+                    const tagLink = document.createElement('a');
+                    tagLink.href = `#category-${tag}`;
+                    tagLink.className = 'nav-tag';
+                    tagLink.style.backgroundColor = bgColor;
+                    tagLink.style.color = '#333';
+                    tagLink.textContent = tag;
+                    navTagsContainer.appendChild(tagLink);
+                });
+            }
+        } catch (error) {
+            console.error('Error loading navigation tags:', error);
+        }
+    }).catch(error => console.error('Error loading api module:', error));
+</script>
+
+</main>
 </body>
 </html>

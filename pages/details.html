@@ -16,15 +16,15 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Link to CSS -->
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../styles.css">
   <!-- Link to JS -->
-  <script type="module" src="js/pages/script.js" defer></script>
+  <script type="module" src="../js/pages/script.js" defer></script>
     <!-- HTMX -->
   <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 </head>
 
 <!-- Header -->
-  <div hx-get="pages/modules/header.html" hx-trigger="load"></div>
+  <div hx-get="modules/header.html" hx-trigger="load"></div>
 <body>
   <!-- Main Content Layout -->
   <main class="main-layout">
@@ -80,7 +80,7 @@
 
       <!-- PDF Viewer -->
       <div class="pdf-container">
-        <embed src="assets/pdf/test.pdf" type="application/pdf" class="pdf-viewer">
+        <embed id="pdf-viewer" src="" type="application/pdf" class="pdf-viewer">
       </div>
     </section>
     

@@ -178,3 +178,57 @@ export function getPinById(pins, pinId) {
 export function getStashItemById(items, itemId) {
   return items.find(item => item.id == itemId) || null;
 }
+
+/**
+ * Load calculator products from backend
+ * @returns {Promise<Array>} Array of product objects
+ */
+export async function loadCalculatorProducts() {
+  try {
+    const response = await fetch('/data/calculator.json');
+    if (!response.ok) throw new Error('Failed to load calculator.json');
+    const products = await response.json();
+    return products;
+  } catch (error) {
+    console.error('Error loading calculator products:', error);
+    return [];
+  }
+}
+
+/**
+ * Save calculator products to backend
+ * @param {Array<Object>} products - Array of product objects to save
+ * @returns {Promise<Response>} Response from save operation
+ */
+export async function saveCalculatorProducts(products) {
+  try {
+    const response = await fetch('/save_calculator', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(products)
+    });
+    if (!response.ok) throw new Error('Failed to save calculator products');
+    return response;
+  } catch (error) {
+    console.error('Error saving calculator products:', error);
+    throw error;
+  }
+}
+
+/**
+ * Delete a calculator product
+ * @param {number} productId - The ID of the product to delete
+ * @returns {Promise<Response>} Response from delete operation
+ */
+export async function deleteCalculatorProduct(productId) {
+  try {
+    const response = await fetch(`/delete_calculator_product/${productId}`, {
+      method: 'POST'
+    });
+    if (!response.ok) throw new Error('Failed to delete calculator product');
+    return response;
+  } catch (error) {
+    console.error('Error deleting calculator product:', error);
+    throw error;
+  }
+}
