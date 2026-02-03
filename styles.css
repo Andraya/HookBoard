@@ -27,15 +27,10 @@
       --card-shadow: 0 2px 8px -2px rgba(45, 37, 32, 0.08), 0 4px 16px -4px rgba(45, 37, 32, 0.12); /* Default card shadows */
       --card-shadow-hover: 0 8px 24px -4px rgba(45, 37, 32, 0.15), 0 16px 40px -8px rgba(45, 37, 32, 0.2); /* Hover card shadows */
 
-      /* Pastel tag colors */
-      --tag-amigurumi-bg: rgba(255, 182, 193, 0.18); --tag-amigurumi-text: #d48a95; /* Soft blush pink */
-      --tag-clothing-bg: rgba(176, 224, 230, 0.18); --tag-clothing-text: #7bb8c8; /* Powder blue */
-      --tag-decoration-bg: rgba(255, 218, 185, 0.18); --tag-decoration-text: #d4a890; /* Peach */
-      --tag-accessory-bg: rgba(221, 160, 221, 0.18); --tag-accessory-text: #c085c0; /* Lilac */
-      --tag-blanket-bg: rgba(173, 216, 230, 0.18); --tag-blanket-text: #8bb8c8; /* Light blue */
-      --tag-baby-bg: rgba(255, 192, 203, 0.18); --tag-baby-text: #d49098; /* Baby pink */
-      --tag-winter-bg: rgba(176, 196, 222, 0.18); --tag-winter-text: #8894b0; /* Periwinkle */
-      --tag-gift-bg: rgba(255, 160, 122, 0.18); --tag-gift-text: #d48578; /* Light salmon */
+      /* Button variables */
+      --btn-secondary-bg: #8b8580;
+      --btn-secondary-color: #fff;
+      --btn-secondary-hover-bg: #6c6763;
     }
 
     /* Global box-sizing and smooth scrolling */
@@ -61,6 +56,11 @@
       display: flex;
       flex-direction: column;
       overflow-x: hidden;
+    }
+
+    /* Remove underlines from all links */
+    a {
+      text-decoration: none;
     }
 
     /* Screen reader only utility class */
@@ -144,6 +144,68 @@
       color: var(--search-placeholder-color);
     }
 
+    /* ===== SORT DROPDOWN ===== */
+    .sort-container {
+      position: relative;
+    }
+
+    .sort-select {
+      padding: 0.75rem 1rem;
+      font-family: 'Inter', Arial, sans-serif;
+      font-size: 0.9375rem;
+      border: none;
+      border-radius: 8px;
+      background: var(--search-bg);
+      color: var(--text-color);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-width: 200px;
+    }
+
+    .sort-select:hover {
+      background: var(--search-hover-bg);
+    }
+
+    .sort-select:focus {
+      outline: none;
+      background: var(--search-focus-bg);
+      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    }
+
+    /* Page Controls */
+    .page-controls {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0.5rem 2rem;
+      background: var(--bg-color);
+      gap: 0.5rem;
+    }
+
+    .btn.sort-toggle-btn {
+      width: auto;
+      height: auto;
+      padding: 0.5rem 0.75rem;
+      font-family: 'Inter', Arial, sans-serif;
+      font-size: 0.75rem;
+      border: none;
+      border-radius: 8px;
+      background: var(--btn-secondary-bg);
+      color: var(--btn-secondary-color);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+
+    .btn.sort-toggle-btn:hover {
+      background: var(--btn-secondary-hover-bg);
+    }
+
+    .btn.sort-toggle-btn i {
+      font-size: 0.75rem;
+    }
+
     /* Profile Avatar */
     .profile-link {
       text-decoration: none;
@@ -212,6 +274,7 @@
       font-weight: 500;
       text-decoration: none;
       padding: 0.375rem 0.75rem;
+      margin-right: 0.5rem;
       border-radius: 50px;
       transition: all 0.2s ease;
       white-space: nowrap;
@@ -230,14 +293,6 @@
 
     /* Navigation tag color variants - same as card tags */
     .nav-tag { background: var(--accent-color); color: var(--text-color); } /* Default/Home color */
-    .nav-tag--amigurumi { background: var(--tag-amigurumi-bg); color: var(--tag-amigurumi-text); }
-    .nav-tag--clothing   { background: var(--tag-clothing-bg); color: var(--tag-clothing-text); }
-    .nav-tag--decoration { background: var(--tag-decoration-bg); color: var(--tag-decoration-text); }
-    .nav-tag--accessory  { background: var(--tag-accessory-bg); color: var(--tag-accessory-text); }
-    .nav-tag--blanket    { background: var(--tag-blanket-bg); color: var(--tag-blanket-text); }
-    .nav-tag--baby       { background: var(--tag-baby-bg); color: var(--tag-baby-text); }
-    .nav-tag--winter     { background: var(--tag-winter-bg); color: var(--tag-winter-text); }
-    .nav-tag--gift       { background: var(--tag-gift-bg); color: var(--tag-gift-text); }
 
     /* ===========================================
        CARD GRID
@@ -290,6 +345,7 @@
       display: flex;
       flex-direction: column;
       border: 2px solid var(--border-color);
+      position: relative;
     }
 
     .card-link {
@@ -331,11 +387,19 @@
       justify-content: space-between;
     }
 
+    .card-title-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
     .card-title {
       font-size: 1rem;
       font-weight: 600;
       color: var(--text-color);
-      margin-bottom: 0.75rem;
+      margin-bottom: 0;
       margin-top: 0rem;
       line-height: 1.4;
       overflow: hidden;
@@ -346,10 +410,82 @@
       -webkit-box-orient: vertical;
       transition: color 0.2s ease;
       text-decoration: none;
+      flex: 1;
     }
     .card-title:hover {
       color: var(--primary-color);
       text-decoration: none;
+    }
+
+    /* Card actions container */
+    .card-actions {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    /* Heart favorite button */
+    .card-favorite {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #999;
+      font-size: 1.125rem;
+      transition: color 0.3s ease;
+      padding: 0.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+    }
+
+    .card-favorite:hover {
+      color: #e74c3c;
+    }
+
+    .card-favorite.active {
+      color: #e74c3c;
+    }
+
+    .card-favorite.active i {
+      font-weight: 900;
+    }
+
+    /* Sticky note */
+    .card-stock-note {
+      position: relative;
+      cursor: pointer;
+      color: #999;
+      font-size: 1.125rem;
+      transition: color 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+    }
+
+    .card-stock-note:hover {
+      color: #f39c12;
+    }
+
+    .card-stock-number {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: #e74c3c;
+      color: white;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: bold;
+      font-family: 'Inter', Arial, sans-serif;
     }
 
     .tags {
@@ -376,51 +512,91 @@
       opacity: 0.85;
     }
 
-    /* Tag color variants */
-    .tag--amigurumi { background: var(--tag-amigurumi-bg); color: var(--tag-amigurumi-text); }
-    .tag--clothing   { background: var(--tag-clothing-bg); color: var(--tag-clothing-text); }
-    .tag--decoration { background: var(--tag-decoration-bg); color: var(--tag-decoration-text); }
-    .tag--accessory  { background: var(--tag-accessory-bg); color: var(--tag-accessory-text); }
-    .tag--blanket    { background: var(--tag-blanket-bg); color: var(--tag-blanket-text); }
-    .tag--baby       { background: var(--tag-baby-bg); color: var(--tag-baby-text); }
-    .tag--winter     { background: var(--tag-winter-bg); color: var(--tag-winter-text); }
-    .tag--gift       { background: var(--tag-gift-bg); color: var(--tag-gift-text); }
-    .tag--fluffy     { background: #FFB6C1; color: #333; }
-    .tag--pokemon    { background: #87CEEB; color: #333; }
-    .tag--cow        { background: #8B4513; color: #FFF; }
-    .tag--strawberry { background: #FF6347; color: #FFF; }
-
     .card-buttons {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.25rem;
       margin-top: 0.75rem;
     }
 
     .btn-edit, .btn-delete {
-      padding: 0.25rem 0.5rem;
+      width: 40px;
+      height: 40px;
+      padding: 0;
       font-size: 0.875rem;
       border: none;
-      border-radius: 4px;
+      border-radius: 50%;
       cursor: pointer;
       transition: background-color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .btn-edit {
-      background-color: #007bff;
+    /* Kebab menu styles */
+    .kebab-container {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      z-index: 5;
+    }
+
+    .kebab-btn {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      border: none;
+      border-radius: 50%;
+      background-color: transparent;
       color: white;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      text-shadow: 0 0 2px rgba(0,0,0,0.5);
     }
 
-    .btn-edit:hover {
-      background-color: #0056b3;
+    .kebab-btn:hover {
+      background-color: rgba(255, 255, 255, 0.3);
     }
 
-    .btn-delete {
-      background-color: #dc3545;
-      color: white;
+    .kebab-menu {
+      display: none;
+      position: absolute;
+      top: 40px;
+      right: 0;
+      border-radius: 4px;
+      background-color: rgba(143, 138, 138, 0.626);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      z-index: 10;
+      padding: 0.25rem;
     }
 
-    .btn-delete:hover {
-      background-color: #c82333;
+    .kebab-container:hover .kebab-menu {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .kebab-menu-item {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      margin: 0.10rem;
+    }
+
+    .kebab-menu-item:hover {
+      background-color: rgba(104, 100, 100, 0.6);
+    }
+    .kebab-menu-item i {
+    color: var(--white);
+    font-size: 0.8rem;
     }
 
     .view-pdf {

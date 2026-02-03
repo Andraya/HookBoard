@@ -3,6 +3,17 @@
  * Includes formatting, and other utility functions
  */
 
+// Array to keep track of used hues for tag colors
+let usedHues = [];
+
+/**
+ * Get the list of used hues
+ * @returns {Array<number>} Array of used hues
+ */
+function getUsedHues() {
+  return usedHues;
+}
+
 /**
  * Format time in seconds to HH:MM:SS format
  * @param {number} seconds - Total seconds
@@ -262,4 +273,49 @@ export function groupBy(arr, property) {
     groups[key].push(item);
     return groups;
   }, {});
+}
+
+/**
+ * Generate colors for a list of tags, ensuring consistency and variety
+ * @param {Array<string>} tags - Array of tag strings
+ * @returns {Object} Map of tag to color
+ */
+export function generateColorsForTags(tags) {
+  const colorMap = {};
+  // Reset used hues for fresh generation
+  usedHues.length = 0;
+
+  tags.forEach(tag => {
+    colorMap[tag] = generateColorFromString(tag);
+  });
+
+  return colorMap;
+}
+
+/**
+ * Generate a consistent pastel color from a string using hash, ensuring variety
+ * @param {string} str - String to hash
+ * @returns {string} HSL color string
+ */
+export function generateColorFromString(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  let hue = Math.abs(hash) % 360;
+
+  // Check if hue is too close to existing ones (within 30 degrees)
+  const minDistance = 30;
+  let attempts = 0;
+  while (usedHues.some(usedHue => Math.abs(hue - usedHue) < minDistance || Math.abs(hue - usedHue - 360) < minDistance) && attempts < 12) {
+    hue = (hue + 30) % 360;
+    attempts++;
+  }
+
+  // Add to used hues
+  usedHues.push(hue);
+
+  const saturation = 30; // Low saturation for pastel effect
+  const lightness = 75; // High lightness for pastel effect
+  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
 }

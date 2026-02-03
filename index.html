@@ -25,12 +25,28 @@
   <link rel="stylesheet" href="styles.css">
 
   <!-- Link to JS -->
-  <script type="module" src="script.js" defer></script>
+  <script type="module" src="js/pages/script.js" defer></script>
 </head>
 
 <body>
 <!-- Header -->
-  <div hx-get="header.html" hx-trigger="load"></div>
+  <div hx-get="pages/modules/header.html" hx-trigger="load"></div>
+
+<!-- Page Controls -->
+<div class="page-controls">
+  <button id="sort-toggle-btn" class="btn btn-secondary sort-toggle-btn" title="Toggle sorting options">
+    <i class="fa-solid fa-up-down"></i>
+  </button>
+  <div class="sort-container" id="sort-container">
+    <label for="sort-select" class="sr-only">Sort pins</label>
+    <select id="sort-select" class="sort-select">
+      <option value="name">By name</option>
+      <option value="newest">From newest to oldest</option>
+      <option value="oldest">From oldest to newest</option>
+      <option value="this-month">This month</option>
+    </select>
+  </div>
+</div>
 
 <!-- Main content starts here -->
 <main class="masonry-grid">

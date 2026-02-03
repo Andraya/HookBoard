@@ -5,6 +5,7 @@
 
 import { createElement, appendChild, clear } from './dom.js';
 import * as api from './api.js';
+import { generateColorFromString } from './helper.js';
 
 // All pins storage
 let allPins = [];
@@ -12,9 +13,10 @@ let allPins = [];
 /**
  * Create a pin card element
  * @param {Object} pin - Pin data object
+ * @param {Object} colorMap - Map of tag to color
  * @returns {Element} Link element containing the card
  */
-export function createPinCard(pin) {
+export function createPinCard(pin, colorMap = {}) {
   // Create link wrapper
   const cardLink = createElement('a', '', {
     href: `details.html?id=${pin.id}`
@@ -33,51 +35,91 @@ export function createPinCard(pin) {
   appendChild(imgWrapper, img);
   appendChild(article, imgWrapper);
 
+  // Create kebab menu container
+  const kebabContainer = createElement('div', 'kebab-container');
+  const kebabBtn = createElement('button', 'kebab-btn');
+  const kebabIcon = createElement('i', 'fa-solid fa-ellipsis-vertical');
+  appendChild(kebabBtn, kebabIcon);
+  appendChild(kebabContainer, kebabBtn);
+
+  // Create kebab menu
+  const menu = createElement('div', 'kebab-menu');
+  const editOption = createElement('div', 'kebab-menu-item');
+  const editIcon = createElement('i', 'fa-solid fa-pencil');
+  appendChild(editOption, editIcon);
+  editOption.onclick = (e) => {
+    e.preventDefault();
+    handleEditPin(pin);
+  };
+  appendChild(menu, editOption);
+
+  const deleteOption = createElement('div', 'kebab-menu-item');
+  const deleteIcon = createElement('i', 'fa-solid fa-trash');
+  appendChild(deleteOption, deleteIcon);
+  deleteOption.onclick = async (e) => {
+    e.preventDefault();
+    await handleDeletePin(pin.id);
+  };
+  appendChild(menu, deleteOption);
+  appendChild(kebabContainer, menu);
+  appendChild(article, kebabContainer);
+
   // Create card content
   const content = createElement('div', 'card-content');
 
+  // Create title header with actions
+  const titleHeader = createElement('div', 'card-title-header');
+  
   // Create title
   const title = createElement('h3', 'card-title', {
     textContent: pin.title
   });
-  appendChild(content, title);
+  appendChild(titleHeader, title);
+
+  // Create actions container (heart and sticky note)
+  const actionsContainer = createElement('div', 'card-actions');
+  
+  // Create heart button, later to be connected to favorites functionality
+  const heartBtn = createElement('button', 'card-favorite', {
+    title: 'Add to favorites',
+    type: 'button'
+  });
+  const heartIcon = createElement('i', 'fa-solid fa-heart');
+  appendChild(heartBtn, heartIcon);
+  heartBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    heartBtn.classList.toggle('active');
+  });
+  appendChild(actionsContainer, heartBtn);
+  
+  // Create sticky note, later to be connected to product stock functionality
+  const stickyNote = createElement('div', 'card-stock-note');
+  const noteIcon = createElement('i', 'fa-solid fa-note-sticky');
+  const stockNumber = createElement('span', 'card-stock-number', {
+    textContent: '0'
+  });
+  appendChild(stickyNote, noteIcon);
+  appendChild(stickyNote, stockNumber);
+  appendChild(actionsContainer, stickyNote);
+  
+  appendChild(titleHeader, actionsContainer);
+  appendChild(content, titleHeader);
 
   // Create tags
   const tagsDiv = createElement('div', 'tags');
   if (pin.tags && pin.tags.length > 0) {
     pin.tags.forEach(tag => {
-      const span = createElement('span', `tag tag--${tag}`, {
-        textContent: tag
+      const bgColor = colorMap[tag] || generateColorFromString(tag);
+      const span = createElement('span', 'tag', {
+        textContent: tag,
+        style: `background-color: ${bgColor}; color: #333;`
       });
       appendChild(tagsDiv, span);
     });
   }
   appendChild(content, tagsDiv);
 
-  // Create buttons
-  const buttonsDiv = createElement('div', 'card-buttons');
-
-  // Create edit button
-  const editBtn = createElement('button', 'btn-edit', {
-    textContent: 'Editar'
-  });
-  editBtn.onclick = (e) => {
-    e.preventDefault();
-    handleEditPin(pin);
-  };
-  appendChild(buttonsDiv, editBtn);
-
-  // Create delete button
-  const deleteBtn = createElement('button', 'btn-delete', {
-    textContent: 'Apagar'
-  });
-  deleteBtn.onclick = async (e) => {
-    e.preventDefault();
-    await handleDeletePin(pin.id);
-  };
-  appendChild(buttonsDiv, deleteBtn);
-
-  appendChild(content, buttonsDiv);
   appendChild(article, content);
   appendChild(cardLink, article);
 
@@ -87,18 +129,69 @@ export function createPinCard(pin) {
 /**
  * Render all pins in card view
  * @param {Array<Object>} pins - Array of pin objects
+ * @param {Object} colorMap - Map of tag to color
  */
-export function renderPins(pins) {
+export function renderPins(pins, colorMap = {}) {
   allPins = pins; // Store all pins
 
-  renderCardsView(pins);
+  renderCardsView(pins, colorMap);
+}
+
+/**
+ * Get unique tags from all pins
+ * @returns {Array<string>} Array of unique tags
+ */
+export function getUniqueTags() {
+  const tagsSet = new Set();
+  allPins.forEach(pin => {
+    if (pin.tags) {
+      pin.tags.forEach(tag => tagsSet.add(tag));
+    }
+  });
+  return Array.from(tagsSet).sort();
+}
+
+/**
+ * Sort pins based on criteria
+ * @param {string} sortBy - Sort criteria: 'name', 'newest', 'oldest', 'this-month'
+ * @returns {Array<Object>} Sorted pins
+ */
+export function sortPins(sortBy) {
+  let sorted = [...allPins];
+
+  switch (sortBy) {
+    case 'name':
+      sorted.sort((a, b) => a.title.localeCompare(b.title));
+      break;
+    case 'newest':
+      sorted.sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate));
+      break;
+    case 'oldest':
+      sorted.sort((a, b) => new Date(a.creationDate) - new Date(b.creationDate));
+      break;
+    case 'this-month':
+      const now = new Date();
+      const thisMonth = now.getMonth();
+      const thisYear = now.getFullYear();
+      sorted = sorted.filter(pin => {
+        const pinDate = new Date(pin.creationDate);
+        return pinDate.getMonth() === thisMonth && pinDate.getFullYear() === thisYear;
+      });
+      sorted.sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate));
+      break;
+    default:
+      break;
+  }
+
+  return sorted;
 }
 
 /**
  * Render pins in card/masonry view
  * @param {Array<Object>} pins - Array of pin objects
+ * @param {Object} colorMap - Map of tag to color
  */
-function renderCardsView(pins) {
+export function renderCardsView(pins, colorMap = {}) {
   const cardsView = document.querySelector('.masonry-grid');
   if (!cardsView) return;
 
@@ -113,7 +206,7 @@ function renderCardsView(pins) {
   }
 
   pins.forEach(pin => {
-    const cardLink = createPinCard(pin);
+    const cardLink = createPinCard(pin, colorMap);
     appendChild(cardsView, cardLink);
   });
 }
@@ -160,7 +253,7 @@ export function preFillEditForm(pin, formElement) {
  * @param {number} pinId - ID of pin to delete
  */
 export async function handleDeletePin(pinId) {
-  if (!confirm('Tem certeza que quer apagar este pin?')) {
+  if (!confirm('Are you sure you want to delete this pin?')) {
     return;
   }
 
