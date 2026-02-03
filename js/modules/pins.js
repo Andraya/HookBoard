@@ -67,11 +67,44 @@ export function createPinCard(pin, colorMap = {}) {
   // Create card content
   const content = createElement('div', 'card-content');
 
+  // Create title header with actions
+  const titleHeader = createElement('div', 'card-title-header');
+  
   // Create title
   const title = createElement('h3', 'card-title', {
     textContent: pin.title
   });
-  appendChild(content, title);
+  appendChild(titleHeader, title);
+
+  // Create actions container (heart and sticky note)
+  const actionsContainer = createElement('div', 'card-actions');
+  
+  // Create heart button, later to be connected to favorites functionality
+  const heartBtn = createElement('button', 'card-favorite', {
+    title: 'Add to favorites',
+    type: 'button'
+  });
+  const heartIcon = createElement('i', 'fa-solid fa-heart');
+  appendChild(heartBtn, heartIcon);
+  heartBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    heartBtn.classList.toggle('active');
+  });
+  appendChild(actionsContainer, heartBtn);
+  
+  // Create sticky note, later to be connected to product stock functionality
+  const stickyNote = createElement('div', 'card-stock-note');
+  const noteIcon = createElement('i', 'fa-solid fa-note-sticky');
+  const stockNumber = createElement('span', 'card-stock-number', {
+    textContent: '0'
+  });
+  appendChild(stickyNote, noteIcon);
+  appendChild(stickyNote, stockNumber);
+  appendChild(actionsContainer, stickyNote);
+  
+  appendChild(titleHeader, actionsContainer);
+  appendChild(content, titleHeader);
 
   // Create tags
   const tagsDiv = createElement('div', 'tags');
