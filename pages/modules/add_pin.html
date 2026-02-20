@@ -3,36 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Pin</title>
-    <link rel="stylesheet" href="styles.css">
-    <script type="module" src="js/pages/script.js" defer></script>
+    <title>Add Pin - HookBoard</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Link to CSS -->
+    <link rel="stylesheet" href="../../styles.css">
+    
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 </head>
 <body>
-    <h1>Add new Pin</h1>
-    <form action="/add_pin" method="post" enctype="multipart/form-data" id="addPinForm"> 
-        <label for="title">Title</label>
-        <input type="text" id="title" name="title" required><br><br>
+    <!-- Header -->
+    <div hx-get="header.html" hx-trigger="load"></div>
 
-        <label for="tags">Tags:</label>
-        <input type="text" id="tags" name="tags"><br><br>
+    <main class="main-content">
+        <div class="form-container">
+            <h1>Add New Pin</h1>
+            <form action="/add_pin" method="post" enctype="multipart/form-data" id="addPinForm">
+                <div class="form-group">
+                    <label for="title">Title <span aria-label="required">*</span></label>
+                    <input type="text" id="title" name="title" required>
+                </div>
 
-        <label for="difficulty">Difficulty:</label>
-        <input type="text" id="difficulty" name="difficulty"><br><br>
+                <div class="form-group">
+                    <label for="tags">Tags</label>
+                    <input type="text" id="tags" name="tags" placeholder="Separate multiple tags with commas">
+                </div>
 
-        <label for="time">Time:</label>
-        <input type="text" id="time" name="time"><br><br>
+                <div class="form-group">
+                    <label for="difficulty">Difficulty</label>
+                    <select id="difficulty" name="difficulty">
+                        <option value="">Select difficulty</option>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
 
-        <label for="productionCost">Production Cost:</label>
-        <input type="text" id="productionCost" name="productionCost"><br><br>
+                <div class="form-group">
+                    <label for="time">Time Required (hours)</label>
+                    <input type="number" id="time" name="time" min="0" step="0.5">
+                </div>
 
-        <label for="usedMaterials">Used Materials (separated by commas):</label>
-        <input type="text" id="usedMaterials" name="usedMaterials"><br><br>
+                <div class="form-group">
+                    <label for="productionCost">Production Cost (€)</label>
+                    <input type="number" id="productionCost" name="productionCost" min="0" step="0.01">
+                </div>
 
-        <label for="pdf">Upload PDF:</label>
-        <input type="file" id="pdf" name="pdf" accept=".pdf" required><br><br>
+                <div class="form-group">
+                    <label for="usedMaterials">Materials Used</label>
+                    <input type="text" id="usedMaterials" name="usedMaterials" placeholder="Separate multiple materials with commas">
+                </div>
 
-        <button type="submit">Add Pin</button>
-    </form>
+                <div class="form-group">
+                    <label for="pdf">Upload PDF <span aria-label="required">*</span></label>
+                    <input type="file" id="pdf" name="pdf" accept=".pdf" required>
+                </div>
 
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Add Pin</button>
+                    <button type="reset" class="btn btn-secondary">Clear</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script type="module" src="../../js/pages/script.js"></script>
 </body>
 </html>

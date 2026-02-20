@@ -1,45 +1,88 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Pin</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Edit Pin - HookBoard</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Link to CSS -->
+    <link rel="stylesheet" href="../../styles.css">
+    
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 </head>
 <body>
-    <h1>Editar Pin</h1>
-    <form action="" method="post" enctype="multipart/form-data" id="editForm">
-        <input type="hidden" id="pinId" name="pinId">
-        <label for="title">Título:</label>
-        <input type="text" id="title" name="title" required><br><br>
+    <!-- Header -->
+    <div hx-get="header.html" hx-trigger="load"></div>
 
-        <label for="tags">Tags (separadas por vírgula):</label>
-        <input type="text" id="tags" name="tags"><br><br>
+    <main class="main-content">
+        <div class="form-container">
+            <h1>Edit Pin</h1>
+            <form action="" method="post" enctype="multipart/form-data" id="editForm">
+                <input type="hidden" id="pinId" name="pinId">
 
-        <label for="difficulty">Dificuldade:</label>
-        <input type="text" id="difficulty" name="difficulty"><br><br>
+                <div class="form-group">
+                    <label for="title">Title <span aria-label="required">*</span></label>
+                    <input type="text" id="title" name="title" required>
+                </div>
 
-        <label for="time">Tempo:</label>
-        <input type="text" id="time" name="time"><br><br>
+                <div class="form-group">
+                    <label for="tags">Tags</label>
+                    <input type="text" id="tags" name="tags" placeholder="Separate multiple tags with commas">
+                </div>
 
-        <label for="productionCost">Custo de Produção:</label>
-        <input type="text" id="productionCost" name="productionCost"><br><br>
+                <div class="form-group">
+                    <label for="difficulty">Difficulty</label>
+                    <select id="difficulty" name="difficulty">
+                        <option value="">Select difficulty</option>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
 
-        <label for="usedMaterials">Materiais Usados (separados por vírgula):</label>
-        <input type="text" id="usedMaterials" name="usedMaterials"><br><br>
+                <div class="form-group">
+                    <label for="time">Time Required (hours)</label>
+                    <input type="number" id="time" name="time" min="0" step="0.5">
+                </div>
 
-        <button type="submit">Atualizar Pin</button>
-        <a href="/">Cancelar</a>
-    </form>
+                <div class="form-group">
+                    <label for="productionCost">Production Cost (€)</label>
+                    <input type="number" id="productionCost" name="productionCost" min="0" step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label for="usedMaterials">Materials Used</label>
+                    <input type="text" id="usedMaterials" name="usedMaterials" placeholder="Separate multiple materials with commas">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Update Pin</button>
+                    <button type="button" class="btn btn-secondary" onclick="window.history.back()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </main>
 
     <script type="module">
         // Get pin ID from URL
         const urlParams = new URLSearchParams(window.location.search);
         const pinId = urlParams.get('id');
+        if (pinId) {
+            document.getElementById('pinId').value = pinId;
+        }
 
-        // Initialize edit page
-        import('./js/modules/pins.js').then(pins => {
-            pins.initializeEditPage(pinId);
+        // Import and initialize edit page
+        import('../../js/modules/pins.js').then(pins => {
+            if (pins.initializeEditPage) {
+                pins.initializeEditPage(pinId);
+            }
         }).catch(error => console.error('Error loading pins module:', error));
     </script>
 </body>
