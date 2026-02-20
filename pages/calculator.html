@@ -35,41 +35,51 @@
                 <!-- SECTION 1: Product Input -->
                 <div class="calculator-card">
                     <h3>1. Execution Data</h3>
+                    
+                    <!-- Project Name -->
                     <div class="form-row">
                         <div class="form-group flex-2">
                             <label for="productName">Project</label>
                             <input type="text" id="productName" placeholder="Ex: Bear" class="form-input">
                         </div>
-                        <div class="form-group flex-1">
-                            <label for="productColor">Colors</label>
-                            <div class="color-input-wrapper">
-                                <input type="text" id="productColor" placeholder="Ex: White" class="form-input color-input">
-                                <button type="button" id="btnAddColor" class="btn-secondary btn-add-color">+</button>
-                            </div>
-                            <div id="colorsList" class="colors-list"></div>
-                        </div>
                     </div>
 
+                    <!-- Yarn Type -->
                     <div class="form-row">
                         <div class="form-group flex-2">
                             <label for="yarnType">Yarn</label>
-                            <!-- This will later come from the stock database -->
                             <select id="yarnType" class="form-input" data-input="yarn-type">
                                 <option value="baby-snuggle">Baby Snuggle Solid</option>
                                 <option value="honey-bunny">Honey Bunny</option>
                                 <option value="rainbow-cotton">Rainbow Cotton 8/8</option>
                             </select>
                         </div>
-                        <div class="form-group flex-1">
-                            <label for="totalWeight">Total (g)</label>
-                            <input type="number" id="totalWeight" class="form-input" data-input="weight-total" value="0" step="1">
-                        </div>
-                        <div class="form-group flex-1">
-                            <label for="yarnWeight">Yarn (g)</label>
-                            <input type="number" id="yarnWeight" class="form-input" data-input="weight-yarn" value="0" step="1">
+                    </div>
+
+                    <!-- Yarn per Color Section -->
+                    <div class="yarn-per-color-section">
+                        <label>Yarn per Color</label>
+                        <div id="yarnDetailsContainer">
+                            <p style="font-size: 12px; color: #666; margin: 10px 0;">Add the amount of yarn used for each color in grams (required for new products)</p>
+                            <div id="yarnColorsContainer"></div>
+                            <button type="button" id="btnAddYarnColor" class="btn-secondary">+ Add Color</button>
+                            <div id="yarnRequiredWarning" class="yarn-required-warning">Yarn per color information is required for new products</div>
                         </div>
                     </div>
 
+                    <!-- Weights -->
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label for="totalWeight">Total Weight (g)</label>
+                            <input type="number" id="totalWeight" class="form-input" data-input="weight-total" value="0" step="1">
+                        </div>
+                        <div class="form-group flex-1">
+                            <label for="yarnWeight">Yarn Weight (g) <small>(Auto-calculated)</small></label>
+                            <input type="number" id="yarnWeight" class="form-input" data-input="weight-yarn" value="0" step="1" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Hook and Time -->
                     <div class="form-row">
                         <div class="form-group flex-1">
                             <label for="hook">Hook</label>
@@ -81,6 +91,7 @@
                         </div>
                     </div>
 
+                    <!-- Extras -->
                     <div class="extras-section">
                         <label>Extras</label>
                         <div id="extrasContainer"></div>
@@ -241,13 +252,12 @@
 </div>
 
 <script type="module">
-    import { init, appState, recalculate, addColorToList, deleteProduct } from '../js/modules/calculator-ui.js';
+    import { init, appState, recalculate, deleteProduct } from '../js/modules/calculator-ui.js';
 
     // Expose to global scope for inline handlers
     window.deleteProduct = deleteProduct;
     window.recalculate = recalculate;
     window.appState = appState;
-    window.addColorToList = addColorToList;
 
     // Start app
     init();

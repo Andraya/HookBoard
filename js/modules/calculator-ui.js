@@ -1,5 +1,6 @@
 import * as calculator from './calculator.js';
 import * as dom from './dom.js';
+import { groupByProductName, loadProductsData, sortBy, filterBy } from './helper.js';
 
 // State management
 export const appState = {
@@ -45,7 +46,13 @@ function setupEventListeners() {
     // Calculation triggers
     document.querySelectorAll('[data-input]').forEach(el => {
         el.addEventListener('change', recalculate);
-        el.addEventListener('input', recalculate);
+        el.addEventListener('input', (e) => {
+            // If it's a yarn color amount, update yarn weight
+            if (e.target.classList.contains('yarn-color-amount')) {
+                updateYarnWeightFromColors();
+            }
+            recalculate();
+        });
     });
 
     // Markup buttons
@@ -60,21 +67,69 @@ function setupEventListeners() {
     document.getElementById('btnAddExtra').addEventListener('click', addExtra);
     document.getElementById('btnSave').addEventListener('click', saveProduct);
 
-    // Event listeners for colours
-    document.getElementById('btnAddColor').addEventListener('click', () => {
-        const colorInput = document.getElementById('productColor');
-        addColorToList(colorInput.value);
-        colorInput.value = '';
-        colorInput.focus();
+    // Yarn per color event listeners
+    document.getElementById('btnAddYarnColor').addEventListener('click', (e) => {
+        e.preventDefault();
+        addYarnColorInput();
     });
 
-    document.getElementById('productColor').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            addColorToList(document.getElementById('productColor').value);
-            document.getElementById('productColor').value = '';
+    // Initialize yarn color input
+    addYarnColorInput();
+}
+
+function addYarnColorInput() {
+    const container = document.getElementById('yarnColorsContainer');
+    const id = `yarn-color-${Date.now()}`;
+    const div = document.createElement('div');
+    div.className = 'yarn-color-group';
+    div.innerHTML = `
+        <input type="text" class="yarn-color-name form-input" placeholder="Color (e.g., blue)" data-color-id="${id}">
+        <input type="number" class="yarn-color-amount form-input" placeholder="Grams" min="0" step="0.1" data-color-id="${id}">
+        <button type="button" class="btn-remove-yarn" onclick="removeYarnColorInput('${id}')">Remove</button>
+    `;
+    container.appendChild(div);
+    
+    // Add event listeners to new inputs
+    const amountInput = div.querySelector('.yarn-color-amount');
+    const nameInput = div.querySelector('.yarn-color-name');
+    
+    amountInput.addEventListener('input', () => {
+        updateYarnWeightFromColors();
+        recalculate();
+    });
+    
+    nameInput.addEventListener('change', () => {
+        recalculate();
+    });
+}
+
+window.removeYarnColorInput = function(id) {
+    const inputs = document.querySelectorAll(`[data-color-id="${id}"]`);
+    inputs.forEach(input => input.closest('.yarn-color-group').remove());
+    updateYarnWeightFromColors();
+    recalculate();
+};
+
+function getYarnsPerColorData() {
+    const yarnsData = {};
+    const colorNames = document.querySelectorAll('.yarn-color-name');
+    const colorAmounts = document.querySelectorAll('.yarn-color-amount');
+    
+    colorNames.forEach((nameInput, index) => {
+        const color = nameInput.value.trim();
+        const amount = parseFloat(colorAmounts[index].value) || 0;
+        if (color && amount > 0) {
+            yarnsData[color] = amount;
         }
     });
+    
+    return yarnsData;
+}
+
+function updateYarnWeightFromColors() {
+    const yarnsData = getYarnsPerColorData();
+    const totalYarnWeight = Object.values(yarnsData).reduce((sum, amount) => sum + amount, 0);
+    document.getElementById('yarnWeight').value = totalYarnWeight || 0;
 }
 
 function toggleFormSection() {
@@ -184,55 +239,6 @@ function findDuplicateProduct(newProduct) {
     });
 }
 
-function getColorsList() {
-    // Retorna array de cores do appState
-    if (!window.appState.colors) {
-        window.appState.colors = [];
-    }
-    return window.appState.colors;
-}
-
-export function addColorToList(color) {
-    if (!color.trim()) return;
-    const colors = getColorsList();
-    const normalizedColor = color.trim().toLowerCase();
-    // Check if color already exists (case-insensitive)
-    const colorExists = colors.some(c => c.toLowerCase() === normalizedColor);
-    if (!colorExists) {
-        colors.push(normalizedColor);
-        renderColorsList();
-    }
-}
-
-function removeColorFromList(color) {
-    const colors = getColorsList();
-    const normalizedColor = color.toLowerCase();
-    const index = colors.findIndex(c => c.toLowerCase() === normalizedColor);
-    if (index > -1) {
-        colors.splice(index, 1);
-        renderColorsList();
-    }
-}
-
-function renderColorsList() {
-    const colors = getColorsList();
-    const container = document.getElementById('colorsList');
-    container.innerHTML = colors.map(color => `
-        <div class="color-item">
-            <span class="color-swatch" style="background-color: ${getColorCode(color)};" title="${color}"></span>
-            <span>${color}</span>
-            <button type="button" data-remove-color="${color}" class="color-remove-btn" aria-label="Remove ${color}">✕</button>
-        </div>
-    `).join('');
-    
-    // Adicionar event listeners aos botões de remover
-    document.querySelectorAll('[data-remove-color]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            removeColorFromList(e.target.dataset.removeColor);
-        });
-    });
-}
-
 function mergeProductsInTable(existingProduct, newProduct) {
     // Atualiza a linha existente com novo stock
     const row = document.querySelector(`tr[data-product-id="${existingProduct.id}"]`);
@@ -247,17 +253,24 @@ function mergeProductsInTable(existingProduct, newProduct) {
 
 function saveProduct() {
     const name = document.getElementById('productName').value;
-    const colors = getColorsList();
     
     if (!name.trim()) {
         alert('Por favor, insira um nome para o produto');
         return;
     }
+
+    // Get yarn per color data
+    const yarnsPerColor = getYarnsPerColorData();
     
-    if (colors.length === 0) {
-        alert('Por favor, adicione pelo menos uma cor');
+    // Validate yarn data for new products
+    if (Object.keys(yarnsPerColor).length === 0) {
+        document.getElementById('yarnRequiredWarning').classList.add('show');
+        alert('Yarn per color information is required for new products');
         return;
     }
+
+    // Get colors from yarn per color (all color names entered)
+    const colors = Object.keys(yarnsPerColor);
 
     const newProduct = calculator.createProductRecord({
         name: document.getElementById('productName').value,
@@ -269,7 +282,9 @@ function saveProduct() {
         hours: parseFloat(document.getElementById('hours').value) || 0,
         extras: getExtrasData(),
         salePrice: parseFloat(document.getElementById('salePrice').value) || 0,
-        stock: 1
+        stock: 1,
+        yarnsPerColor: yarnsPerColor,
+        active: true
     });
 
     // Check if there's a matching pin
@@ -474,8 +489,6 @@ function duplicateProductGroup(group) {
     
     // Fill form fields
     document.getElementById('productName').value = product.name;
-    window.appState.colors = [...firstVariant.color];
-    renderColorsList();
     document.getElementById('yarnType').value = product.yarnType;
     document.getElementById('hook').value = product.hook;
     document.getElementById('totalWeight').value = product.totalWeight;
@@ -483,12 +496,34 @@ function duplicateProductGroup(group) {
     document.getElementById('hours').value = product.hours;
     document.getElementById('salePrice').value = product.salePrice;
     
+    // Fill yarn per color data
+    const yarnColorsContainer = document.getElementById('yarnColorsContainer');
+    yarnColorsContainer.innerHTML = '';
+    if (product.yarnsPerColor && Object.keys(product.yarnsPerColor).length > 0) {
+        Object.entries(product.yarnsPerColor).forEach(([color, amount]) => {
+            addYarnColorInput();
+            const inputs = yarnColorsContainer.querySelectorAll('.yarn-color-group');
+            const lastGroup = inputs[inputs.length - 1];
+            if (lastGroup) {
+                lastGroup.querySelector('.yarn-color-name').value = color;
+                lastGroup.querySelector('.yarn-color-amount').value = amount;
+            }
+        });
+    }
+    
     // Fill extras if they exist
     const extrasContainer = document.getElementById('extrasContainer');
     extrasContainer.innerHTML = '';
     if (product.extras && product.extras.length > 0) {
         product.extras.forEach(extra => {
-            addExtraRow(extra.price, extra.quantity);
+            addExtra();
+            // Set the values for the newly added extra
+            const extras = extrasContainer.querySelectorAll('.extra-item');
+            const lastExtra = extras[extras.length - 1];
+            if (lastExtra) {
+                lastExtra.querySelector('.extra-select').value = extra.price;
+                lastExtra.querySelector('.extra-qty').value = extra.quantity;
+            }
         });
     }
     
@@ -514,51 +549,31 @@ function updateVariantStock(variantId, action) {
     renderProductsTable();
 }
 
-function updateGroupStock(group, action, row) {
-    // Increase/decrease stock of all variants in the group
-    group.variants.forEach(variant => {
-        const product = appState.products.find(p => p.id === variant.id);
-        if (!product) return;
-        
-        if (action === 'add') {
-            product.stock++;
-        } else if (action === 'sell' && product.stock > 0) {
-            product.stock--;
-        }
-    });
-    
-    persistProducts();
-    renderProductsTable();
-}
-
 function deleteProductGroup(group) {
     if (!confirm('Eliminar este grupo de produtos e todas as suas variantes?')) return;
-    // Removel all products in the group
+    // Delete all products in the group via API
     const productIds = group.variants.map(v => v.id);
-    appState.products = appState.products.filter(p => !productIds.includes(p.id));
-    persistProducts();
-    renderProductsTable();
-}
-
-function updateStock(productId, action, row) {
-    const product = appState.products.find(p => p.id === productId);
-    if (!product) return;
-
-    if (action === 'add') {
-        product.stock++;
-    } else if (action === 'sell' && product.stock > 0) {
-        product.stock--;
-    }
-
-    persistProducts();
-    renderProductsTable();
+    Promise.all(productIds.map(id => 
+        fetch(`/delete_calculator_product/${id}`, { method: 'POST' })
+    )).then(() => {
+        loadProducts();
+    }).catch(error => {
+        console.error('Erro ao eliminar produtos:', error);
+        alert('Erro ao eliminar produtos. Verifique a consola.');
+    });
 }
 
 export function deleteProduct(productId) {
     if (!confirm('Eliminar este produto?')) return;
-    appState.products = appState.products.filter(p => p.id !== productId);
-    persistProducts();
-    renderProductsTable();
+    fetch(`/delete_calculator_product/${productId}`, { method: 'POST' })
+        .then(response => response.json())
+        .then(() => {
+            loadProducts();
+        })
+        .catch(error => {
+            console.error('Erro ao eliminar produto:', error);
+            alert('Erro ao eliminar produto. Verifique a consola.');
+        });
 }
 
 function getColorCode(colorName) {
@@ -723,6 +738,7 @@ function resetFilters() {
     document.getElementById('filterYarn').value = '';
     document.getElementById('filterHook').value = '';
     document.getElementById('filterStock').value = '';
+    window.history.replaceState({}, document.title, window.location.pathname);
     applyFilters();
 }
 
@@ -779,13 +795,16 @@ async function loadProducts() {
 
 function clearForm() {
     document.getElementById('productName').value = '';
-    document.getElementById('productColor').value = '';
-    window.appState.colors = [];
-    renderColorsList();
     document.getElementById('totalWeight').value = '0';
     document.getElementById('yarnWeight').value = '0';
     document.getElementById('hours').value = '1';
     document.getElementById('salePrice').value = '0';
     document.getElementById('extrasContainer').innerHTML = '';
+    
+    // Clear yarn colors
+    document.getElementById('yarnColorsContainer').innerHTML = '';
+    addYarnColorInput();
+    document.getElementById('yarnRequiredWarning').classList.remove('show');
+    
     recalculate();
 }

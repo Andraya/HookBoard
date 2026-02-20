@@ -3,8 +3,22 @@
  * Timer state, display updates, and event handling
  */
 
-import { formatTime } from './helper.js';
 import { getElement, getElementById, setText } from './dom.js';
+
+/**
+ * Format time in seconds to HH:MM:SS format
+ * @param {number} seconds - Total seconds
+ * @returns {string} Formatted time string
+ */
+export function formatTime(seconds) {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
+
+
 
 /**
  * Timer class to manage timer state and operations
@@ -100,30 +114,15 @@ export class Timer {
  * @param {Timer} timer - Timer instance
  */
 export function initializeTimer(timer) {
-  const startBtn = getElement('.btn-start');
-  const pauseBtn = getElement('.btn-pause');
-  const resetBtn = getElement('.btn-reset');
   const resetDockBtn = getElement('.btn-reset-dock');
-  const timerIcon = getElement('.dock-item.timer .dock-icon');
-
-  if (startBtn) {
-    startBtn.addEventListener('click', () => timer.start());
-  }
-
-  if (pauseBtn) {
-    pauseBtn.addEventListener('click', () => timer.pause());
-  }
-
-  if (resetBtn) {
-    resetBtn.addEventListener('click', () => timer.reset());
-  }
+  const timerDisplay = getElement('.timer-display');
 
   if (resetDockBtn) {
     resetDockBtn.addEventListener('click', () => timer.reset());
   }
 
-  if (timerIcon) {
-    timerIcon.addEventListener('click', () => timer.toggle());
+  if (timerDisplay) {
+    timerDisplay.addEventListener('click', () => timer.toggle());
   }
 
   // Initial display update

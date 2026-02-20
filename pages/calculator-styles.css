@@ -1053,3 +1053,102 @@ tbody tr:nth-child(even) {
     max-height: 200px;
     overflow-y: auto;
 }
+
+/* Yarn Per Color Section Styles */
+.yarn-per-color-section {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.yarn-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.yarn-section-header label {
+    font-weight: 600;
+    margin: 0;
+}
+
+.btn-toggle-yarn {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.2s;
+}
+
+.btn-toggle-yarn:hover {
+    background-color: #0056b3;
+}
+
+.yarn-details-hidden {
+    display: none;
+}
+
+.yarn-details-hidden.show {
+    display: block;
+}
+
+.yarn-color-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 3px;
+    align-items: center;
+}
+
+.yarn-color-group input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.yarn-color-name {
+    flex: 1;
+    min-width: 120px;
+}
+
+.yarn-color-amount {
+    flex: 0 0 100px;
+}
+
+.btn-remove-yarn {
+    background-color: #dc3545;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.btn-remove-yarn:hover {
+    background-color: #c82333;
+}
+
+.yarn-required-warning {
+    color: #dc3545;
+    font-size: 12px;
+    display: none;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 3px;
+}
+
+.yarn-required-warning.show {
+    display: block;
+}

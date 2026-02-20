@@ -102,7 +102,9 @@ export function createProductRecord(productData) {
     ...costs,
     stock: productData.stock || 1,
     sold: productData.sold || 0,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    yarnsPerColor: productData.yarnsPerColor || {},
+    active: productData.active !== false ? true : false
   };
 }
 
@@ -170,12 +172,14 @@ export function formatPercentage(value) {
 }
 
 /**
- * Load products from backend
- * @returns {Promise<Array>} Array of products
+ * Load products from backend (only active ones)
+ * @returns {Promise<Array>} Array of active products
  */
 export async function loadProducts() {
   try {
-    return await api.loadCalculatorProducts();
+    const products = await api.loadCalculatorProducts();
+    // Filter only active products
+    return products.filter(p => p.active !== false);
   } catch (error) {
     console.error('Error loading products:', error);
     return [];

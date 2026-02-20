@@ -1,11 +1,17 @@
 
-// Event listeners for timer buttons
+// Event listeners for timer and counter
 document.addEventListener('DOMContentLoaded', () => { // Ensure DOM is loaded before attaching event listeners; DOM is Document Object Model
   // Initialize timer using the module
   import('../modules/timer.js').then(({ Timer, initializeTimer }) => {
     const timer = new Timer();
     initializeTimer(timer);
   }).catch(error => console.error('Error loading timer module:', error));
+
+  // Initialize counter using the module
+  import('../modules/counter.js').then(({ Counter, initializeCounter }) => {
+    const counter = new Counter();
+    initializeCounter(counter);
+  }).catch(error => console.error('Error loading counter module:', error));
 
   // Initialize pins functionality
   import('../modules/pins.js').then(({ renderPins, sortPins, renderCardsView, initializePinEditForm, getUniqueTags }) => {

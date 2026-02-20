@@ -170,16 +170,6 @@ export function getPinById(pins, pinId) {
 }
 
 /**
- * Get a single stash item by ID from the items array
- * @param {Array<Object>} items - Array of stash item objects
- * @param {number} itemId - The ID to search for
- * @returns {Object|null} The item object or null if not found
- */
-export function getStashItemById(items, itemId) {
-  return items.find(item => item.id == itemId) || null;
-}
-
-/**
  * Load calculator products from backend
  * @returns {Promise<Array>} Array of product objects
  */

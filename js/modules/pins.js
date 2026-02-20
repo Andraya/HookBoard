@@ -5,7 +5,7 @@
 
 import { createElement, appendChild, clear } from './dom.js';
 import * as api from './api.js';
-import { generateColorFromString } from './helper.js';
+import { generateColorFromString, loadProductsData, groupByProductName } from './helper.js';
 
 // All pins storage
 let allPins = [];
@@ -16,7 +16,8 @@ let allPins = [];
  * @param {Object} colorMap - Map of tag to color
  * @returns {Element} Link element containing the card
  */
-export async function createPinCard(pin, colorMap = {}) {
+
+export function createPinCard(pin, colorMap = {}) {
   // Create link wrapper
   const cardLink = createElement('a', '', {
     href: `pages/details.html?id=${pin.id}`
@@ -24,7 +25,7 @@ export async function createPinCard(pin, colorMap = {}) {
 
   // Create article/card element
   const article = createElement('article', 'card');
-
+  
   // Create image wrapper
   const imgWrapper = createElement('div', 'card-image-wrapper');
   const img = createElement('img', 'card-image', {
@@ -133,15 +134,15 @@ export async function createPinCard(pin, colorMap = {}) {
   appendChild(article, content);
   appendChild(cardLink, article);
 
-  // Fetch and update stock number from products
-  if (pin.productName) {
+  // Fetch and update stock number from products from calculator.json if productName is defined
+  if (pin.productName) { // Only attempt to load products if productName is defined and exists in
     try {
-      const products = await loadProductsData();
-      const groupedProducts = groupByProductName(products);
-      const group = groupedProducts[pin.productName];
-      if (group) {
-        const stockTotal = group.reduce((sum, p) => sum + (p.stock || 0), 0);
-        stockNumber.textContent = stockTotal;
+      const products = loadProductsData(); // Load products data from storage
+      const groupedProducts = groupByProductName(products); // Group products by name for easier lookup (as in, in the table view of the calculator)
+      const group = groupedProducts[pin.productName]; // Get the group of products matching the pin's productName, to calculate total stock
+      if (group) { // If there are products matching the pin's productName, calculate total stock and update the stock number in the sticky note (because if there is a productName with X characteristics and a product Y with same productName but different characteristics, they should both contribute to the total stock shown in the sticky note)
+        const stockTotal = group.reduce((sum, p) => sum + (p.stock || 0), 0); // Update the stock number in the sticky note
+        stockNumber.textContent = stockTotal; // If stockTotal is greater than 0, add a class to the sticky note to visually indicate it has stock
       }
     } catch (error) {
       console.error('Error loading product data:', error);
@@ -152,45 +153,16 @@ export async function createPinCard(pin, colorMap = {}) {
 }
 
 /**
- * Group products by name
- * @param {Array} products - Array of product objects
- * @returns {Object} Object with product names as keys and arrays of products as values
- */
-function groupByProductName(products) {
-  const groups = {};
-  products.forEach(product => {
-    if (!groups[product.name]) {
-      groups[product.name] = [];
-    }
-    groups[product.name].push(product);
-  });
-  return groups;
-}
-
-/**
- * Load products data from storage
- * @returns {Promise<Array>} Array of product objects
- */
-async function loadProductsData() {
-  try {
-    const response = await fetch('/data/calculator.json');
-    if (!response.ok) throw new Error('Failed to load calculator.json');
-    return await response.json();
-  } catch (error) {
-    console.error('Error loading products:', error);
-    return [];
-  }
-}
-
-/**
  * Render all pins in card view
  * @param {Array<Object>} pins - Array of pin objects
  * @param {Object} colorMap - Map of tag to color
  */
 export function renderPins(pins, colorMap = {}) {
-  allPins = pins; // Store all pins
+  // Filter only active pins
+  const activePins = pins.filter(pin => pin.active !== false);
+  allPins = activePins; // Store only active pins
 
-  renderCardsView(pins, colorMap);
+  renderCardsView(activePins, colorMap);
 }
 
 /**

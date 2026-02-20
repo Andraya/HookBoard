@@ -7,26 +7,6 @@
 let usedHues = [];
 
 /**
- * Get the list of used hues
- * @returns {Array<number>} Array of used hues
- */
-function getUsedHues() {
-  return usedHues;
-}
-
-/**
- * Format time in seconds to HH:MM:SS format
- * @param {number} seconds - Total seconds
- * @returns {string} Formatted time string
- */
-export function formatTime(seconds) {
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  const secs = seconds % 60;
-  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-}
-
-/**
  * Parse comma-separated string into array
  * @param {string} str - Comma-separated string
  * @returns {Array<string>} Array of trimmed strings
@@ -168,7 +148,7 @@ export function isEmptyObject(obj) {
 
 /**
  * Debounce function execution
- * @param {Function} func - Function to debounce
+ * @param {Function} func - Function to debounce. Debounced function will receive the same arguments as the original function.
  * @param {number} wait - Wait time in ms
  * @returns {Function} Debounced function
  */
@@ -318,4 +298,35 @@ export function generateColorFromString(str) {
   const saturation = 30; // Low saturation for pastel effect
   const lightness = 75; // High lightness for pastel effect
   return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+}
+
+/**
+ * Load products data from storage
+ * @returns {Promise<Array>} Array of product objects
+ */
+export async function loadProductsData() {
+  try {
+    const response = await fetch('/data/calculator.json');
+    if (!response.ok) throw new Error('Failed to load calculator.json');
+    return await response.json();
+  } catch (error) {
+    console.error('Error loading products:', error);
+    return [];
+  }
+}
+
+/**
+ * Group products by name - consolidates products with same name but different variants
+ * @param {Array} products - Array of product objects
+ * @returns {Object} Object with product names as keys and arrays of products as values
+ */
+export function groupByProductName(products) {
+  const groups = {};
+  products.forEach(product => {
+    if (!groups[product.name]) {
+      groups[product.name] = [];
+    }
+    groups[product.name].push(product);
+  });
+  return groups;
 }

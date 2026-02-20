@@ -1,59 +1,122 @@
 [
   {
-    "id": 1770136998194,
+    "id": 1770142626974,
     "name": "Squirtle",
     "color": [
       "blue",
-      "dark blue",
+      "white",
       "brown"
     ],
     "hook": "4 mm",
     "yarnType": "baby-snuggle",
-    "totalWeight": 150,
-    "yarnWeight": 100,
+    "totalWeight": 100,
+    "yarnWeight": 80,
     "hours": 1,
-    "extras": [],
-    "yarnCostNormal": 8,
-    "yarnCostPromo": 4.3999999999999995,
-    "fillingCost": 0.9145000000000001,
+    "extras": [
+      {
+        "price": 0.116,
+        "quantity": 2
+      }
+    ],
+    "yarnCostNormal": 6.4,
+    "yarnCostPromo": 3.5199999999999996,
+    "fillingCost": 0.3658,
     "laborCost": 1,
-    "extrasCost": 0,
-    "totalNormal": 9.9145,
-    "totalPromo": 6.3145,
-    "salePrice": 25,
-    "profitNormal": 15.0855,
-    "profitPromo": 18.6855,
-    "stock": 1,
+    "extrasCost": 0.232,
+    "totalNormal": 7.997800000000001,
+    "totalPromo": 5.1178,
+    "salePrice": 16,
+    "profitNormal": 8.002199999999998,
+    "profitPromo": 10.882200000000001,
+    "stock": 3,
     "sold": 0,
-    "timestamp": "2026-02-03T16:43:18.194Z",
-    "pinId": 1
+    "timestamp": "2026-02-03T18:17:06.974Z",
+    "pinId": 1,
+    "yarnsPerColor": {
+      "blue": 25,
+      "white": 25,
+      "brown": 30
+    },
+    "active": true
   },
   {
-    "id": 1770138428000,
-    "name": "Cinderela",
+    "id": 1771616603009,
+    "name": "Squirtle",
     "color": [
-      "white"
+      "blue",
+      "yellow",
+      "brown"
     ],
     "hook": "4 mm",
     "yarnType": "baby-snuggle",
     "totalWeight": 100,
-    "yarnWeight": 100,
+    "yarnWeight": 95,
     "hours": 1,
-    "extras": [],
-    "yarnCostNormal": 8,
-    "yarnCostPromo": 4.3999999999999995,
-    "fillingCost": 0,
+    "extras": [
+      {
+        "price": 0.116,
+        "quantity": 2
+      }
+    ],
+    "yarnCostNormal": 7.6000000000000005,
+    "yarnCostPromo": 4.18,
+    "fillingCost": 0.09145,
     "laborCost": 1,
-    "extrasCost": 0,
-    "totalNormal": 9,
-    "totalPromo": 5.3999999999999995,
-    "salePrice": 18,
-    "profitNormal": 9,
-    "profitPromo": 12.600000000000001,
+    "extrasCost": 0.232,
+    "totalNormal": 8.92345,
+    "totalPromo": 5.50345,
+    "salePrice": 16,
+    "profitNormal": 7.076549999999999,
+    "profitPromo": 10.49655,
     "stock": 1,
     "sold": 0,
-    "timestamp": "2026-02-03T17:07:08.000Z",
-    "pinId": 4
+    "timestamp": "2026-02-20T19:43:23.009Z",
+    "yarnsPerColor": {
+      "blue": 25,
+      "yellow": 40,
+      "brown": 30
+    },
+    "active": true,
+    "pinId": 1
+  },
+  {
+    "id": 1770142365532,
+    "name": "Bear",
+    "color": [
+      "blue",
+      "white",
+      "red"
+    ],
+    "hook": "4 mm",
+    "yarnType": "baby-snuggle",
+    "totalWeight": 150,
+    "yarnWeight": 135,
+    "hours": 1,
+    "extras": [
+      {
+        "price": 0.116,
+        "quantity": 2
+      }
+    ],
+    "yarnCostNormal": 10.8,
+    "yarnCostPromo": 5.9399999999999995,
+    "fillingCost": 0.27435,
+    "laborCost": 1,
+    "extrasCost": 0.232,
+    "totalNormal": 12.30635,
+    "totalPromo": 7.44635,
+    "salePrice": 18.46,
+    "profitNormal": 6.153650000000001,
+    "profitPromo": 11.013650000000002,
+    "stock": 1,
+    "sold": 0,
+    "timestamp": "2026-02-03T18:12:45.532Z",
+    "yarnsPerColor": {
+      "blue": 10,
+      "white": 25,
+      "red": 100
+    },
+    "active": false
   },
   {
     "id": 1770139170612,
@@ -80,6 +143,41 @@
     "stock": 2,
     "sold": 0,
     "timestamp": "2026-02-03T17:19:30.612Z",
-    "pinId": 2
+    "pinId": 2,
+    "yarnsPerColor": {
+      "white": 10
+    },
+    "active": false
+  },
+  {
+    "id": 1770138428000,
+    "name": "Cinderela",
+    "color": [
+      "white"
+    ],
+    "hook": "4 mm",
+    "yarnType": "baby-snuggle",
+    "totalWeight": 100,
+    "yarnWeight": 100,
+    "hours": 1,
+    "extras": [],
+    "yarnCostNormal": 8,
+    "yarnCostPromo": 4.3999999999999995,
+    "fillingCost": 0,
+    "laborCost": 1,
+    "extrasCost": 0,
+    "totalNormal": 9,
+    "totalPromo": 5.3999999999999995,
+    "salePrice": 18,
+    "profitNormal": 9,
+    "profitPromo": 12.600000000000001,
+    "stock": 1,
+    "sold": 0,
+    "timestamp": "2026-02-03T17:07:08.000Z",
+    "pinId": 4,
+    "yarnsPerColor": {
+      "white": 100
+    },
+    "active": false
   }
 ]

@@ -39,6 +39,18 @@ def add_pin():
     production_cost = request.form.get('productionCost')
     used_materials = [mat.strip() for mat in request.form.get('usedMaterials', '').split(',') if mat.strip()] # split used materials by comma and strip whitespace, saves in a list: [material1, material2, ...]
     
+    # Get yarn per color data
+    yarns_per_color_str = request.form.get('yarnsPerColorData', '{}')
+    try:
+        yarns_per_color = json.loads(yarns_per_color_str)
+    except json.JSONDecodeError:
+        yarns_per_color = {}
+    
+    # If there are multiple colors, keep only the one with maximum weight
+    if len(yarns_per_color) > 1:
+        max_color = max(yarns_per_color, key=yarns_per_color.get)
+        yarns_per_color = {max_color: yarns_per_color[max_color]}
+    
     # Handle PDF upload
     pdf_file = request.files.get('pdf') # get the uploaded PDF file from the form
     if pdf_file:
@@ -56,27 +68,48 @@ def add_pin():
     with open(pins_path, 'r') as f:
         pins = json.load(f)
 
-    # Get next id
-    if pins:
-        next_id = max(pin['id'] for pin in pins) + 1
+    # Check if a pin with the same title already exists (but is inactive)
+    existing_pin = None
+    for pin in pins:
+        if pin['title'].lower() == title.lower() and pin.get('active') == False:
+            existing_pin = pin
+            break
+    
+    # If pin exists but is inactive, reactivate it with updated data
+    if existing_pin:
+        existing_pin['tags'] = tags
+        existing_pin['pdf'] = pdf_relative if pdf_relative else existing_pin.get('pdf', '')
+        existing_pin['usedMaterials'] = used_materials
+        existing_pin['difficulty'] = difficulty
+        existing_pin['time'] = time
+        existing_pin['productionCost'] = production_cost
+        existing_pin['yarnsPerColor'] = yarns_per_color
+        existing_pin['active'] = True
+        # Keep original creation date and id
     else:
-        next_id = 1
+        # Create new pin
+        # Get next id
+        if pins:
+            next_id = max(pin['id'] for pin in pins) + 1
+        else:
+            next_id = 1
 
-    # Create new pin
-    new_pin = {
-        "id": next_id,
-        "title": title,
-        "image": "",  # Will be set by extract script in file scripts/extract_images.py
-        "tags": tags,
-        "pdf": pdf_relative,
-        "usedMaterials": used_materials,
-        "difficulty": difficulty,
-        "creationDate": datetime.now().strftime('%Y-%m-%d'), # current date in YYYY-MM-DD format
-        "time": time, # estimated time to complete the project
-        "productionCost": production_cost # estimated production cost, to be calculated automatically in the future
-    }
+        new_pin = {
+            "id": next_id,
+            "title": title,
+            "image": "",  # Will be set by extract script in file scripts/extract_images.py
+            "tags": tags,
+            "pdf": pdf_relative,
+            "usedMaterials": used_materials,
+            "difficulty": difficulty,
+            "creationDate": datetime.now().strftime('%Y-%m-%d'), # current date in YYYY-MM-DD format
+            "time": time, # estimated time to complete the project
+            "productionCost": production_cost, # estimated production cost, to be calculated automatically in the future
+            "yarnsPerColor": yarns_per_color,
+            "active": True
+        }
 
-    pins.append(new_pin) # add the new pin to the list of existing pins
+        pins.append(new_pin) # add the new pin to the list of existing pins
 
     # Save pins
     with open(pins_path, 'w') as f:
@@ -129,7 +162,7 @@ def edit_pin(pin_id):
     # For GET, serve the edit page
     return send_from_directory(os.path.join(os.path.dirname(__file__), '..'), 'edit_pin.html') #
 
-# handles deleting an existing pin
+# handles deleting an existing pin (soft delete - mark as inactive)
 @app.route('/delete_pin/<int:pin_id>', methods=['POST'])
 def delete_pin(pin_id):
     # Load existing pins
@@ -137,8 +170,11 @@ def delete_pin(pin_id):
     with open(pins_path, 'r') as f:
         pins = json.load(f)
 
-    # Remove the pin
-    pins = [pin for pin in pins if pin['id'] != pin_id] # create a new list of pins excluding the one with the specified pin_id
+    # Mark pin as inactive instead of removing it
+    for pin in pins:
+        if pin['id'] == pin_id:
+            pin['active'] = False
+            break
 
     # Save pins
     with open(pins_path, 'w') as f:
@@ -153,24 +189,59 @@ def delete_pin(pin_id):
 def save_calculator():
     try:
         # Get JSON data from request
-        products = request.get_json()
+        new_products = request.get_json()
         
         # Define calculator.json path
         calculator_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'calculator.json')
+        
+        # Load existing products
+        try:
+            with open(calculator_path, 'r') as f:
+                existing_products = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            existing_products = []
+        
+        # Process new products - check for reactivation
+        processed_products = []
+        for new_product in new_products:
+            # Check if product with same name and yarnType exists but is inactive
+            matching_inactive = None
+            for existing in existing_products:
+                if (existing.get('name') == new_product.get('name') and 
+                    existing.get('yarnType') == new_product.get('yarnType') and 
+                    existing.get('active') == False):
+                    matching_inactive = existing
+                    break
+            
+            if matching_inactive:
+                # Reactivate existing product with new data
+                matching_inactive.update(new_product)
+                matching_inactive['active'] = True
+                processed_products.append(matching_inactive)
+            else:
+                # Add new product
+                if 'active' not in new_product:
+                    new_product['active'] = True
+                processed_products.append(new_product)
+        
+        # Add any existing products that weren't updated (to preserve inactive ones)
+        for existing in existing_products:
+            if not any(p.get('id') == existing.get('id') for p in processed_products):
+                processed_products.append(existing)
         
         # Create directory if it doesn't exist
         os.makedirs(os.path.dirname(calculator_path), exist_ok=True)
         
         # Save to JSON file
         with open(calculator_path, 'w') as f:
-            json.dump(products, f, indent=2)
+            json.dump(processed_products, f, indent=2)
         
         return {'status': 'success', 'message': 'Produtos guardados com sucesso'}, 200
     except Exception as e:
         print(f'Erro ao guardar produtos: {str(e)}')
         return {'status': 'error', 'message': str(e)}, 500
 
-# Delete a calculator product
+# Delete a calculator product (soft delete - mark as inactive)
 @app.route('/delete_calculator_product/<int:product_id>', methods=['POST'])
 def delete_calculator_product(product_id):
     try:
@@ -181,14 +252,17 @@ def delete_calculator_product(product_id):
         with open(calculator_path, 'r') as f:
             products = json.load(f)
         
-        # Remove the product
-        products = [p for p in products if p['id'] != product_id]
+        # Mark product as inactive instead of removing it
+        for product in products:
+            if product['id'] == product_id:
+                product['active'] = False
+                break
         
         # Save updated products
         with open(calculator_path, 'w') as f:
             json.dump(products, f, indent=2)
         
-        return {'status': 'success', 'message': 'Produto eliminado com sucesso'}, 200
+        return {'status': 'success', 'message': 'Produto marcado como inativo'}, 200
     except Exception as e:
         print(f'Erro ao eliminar produto: {str(e)}')
         return {'status': 'error', 'message': str(e)}, 500
